@@ -6,17 +6,15 @@ AnsiConsole.Progress()
 	.AutoClear(false)
 	.Columns(
 		new TaskDescriptionColumn(),    // Task description
-		new ProgressBarColumn
-		{
-			IndeterminateStyle = new Style(foreground: Color.Green1)
-		},    // (Optional: Spectre's default bar)
+		// new ProgressBarColumn
+		// {
+		// 	IndeterminateStyle = new Style(foreground: Color.Green1)
+		// },    // (Optional: Spectre's default bar)
 		new BrailleProgressBarColumn {
 			Width = 30,
 			FilledStyle = new Style(foreground: Color.Green),
 			FillingStyle = new Style(foreground: Color.Green1),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			Prefix = "",
-			Suffix = ""
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()
