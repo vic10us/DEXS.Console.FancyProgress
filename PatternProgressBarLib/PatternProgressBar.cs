@@ -53,11 +53,11 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
         if (IsIndeterminate)
         {
-            foreach (var segment in RenderIndeterminate(options, barWidth, pattern, prefix, suffix))
+            foreach (var segment in RenderIndeterminate(options, barWidth, prefix, suffix))
                 yield return segment;
             yield break;
         }
-        
+
         // Use IsCursor property for cursor mode
         if (ProgressPattern != null && ProgressPattern.IsCursor)
         {
@@ -137,19 +137,65 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         yield return new Segment(suffix, Style.Plain);
     }
 
-    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, IReadOnlyList<char> pattern, string prefix, string suffix)
+    public char UnicodeBar { get; set; } = '━';
+    public char AsciiBar { get; set; } = '-';
+    public Style IndeterminateStyle { get; set; } = DefaultPulseStyle;
+    private const int PULSESIZE = 20;
+    private const int PULSESPEED = 15;
+
+    internal static Style DefaultPulseStyle { get; } = new Style(foreground: Color.DodgerBlue1, background: Color.Grey23);
+
+    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, string prefix, string suffix)
     {
-        _phase = (_phase + 1) % (width * (pattern.Count - 1));
-        int activeCell = _phase / (pattern.Count - 1);
-        int density = _phase % (pattern.Count - 1);
-        yield return new Segment(prefix, Style.Plain);
-        for (int i = 0; i < width; i++)
+        var bar = options.Unicode ? UnicodeBar.ToString() : AsciiBar.ToString();
+        var style = IndeterminateStyle ?? DefaultPulseStyle;
+
+        IEnumerable<Segment> GetPulseSegments()
         {
-            if (i == activeCell)
-                yield return new Segment(pattern[density + 1].ToString(), FilledStyle);
-            else
-                yield return new Segment(pattern[0].ToString(), EmptyStyle);
+            // For 1-bit and 3-bit colors, fall back to
+            // a simpler versions with only two colors.
+            if (options.ColorSystem is ColorSystem.NoColors or ColorSystem.Legacy)
+            {
+                // First half of the pulse
+                var segments = Enumerable.Repeat(new Segment(bar, new Style(style.Foreground)), PULSESIZE / 2);
+
+                // Second half of the pulse
+                var legacy = options.ColorSystem is ColorSystem.NoColors or ColorSystem.Legacy;
+                var bar2 = legacy ? " " : bar;
+                segments = segments.Concat(Enumerable.Repeat(new Segment(bar2, new Style(style.Background)), PULSESIZE - (PULSESIZE / 2)));
+
+                foreach (var segment in segments)
+                {
+                    yield return segment;
+                }
+
+                yield break;
+            }
+
+            for (var index = 0; index < PULSESIZE; index++)
+            {
+                var position = index / (float)PULSESIZE;
+                var fade = 0.5f + ((float)Math.Cos(position * Math.PI * 2) / 2.0f);
+                var color = style.Foreground.Blend(style.Background, fade);
+
+                yield return new Segment(bar, new Style(foreground: color));
+            }
         }
+
+        // Get the pulse segments
+        var pulseSegments = GetPulseSegments();
+        pulseSegments = pulseSegments.Repeat((width / PULSESIZE) + 2);
+
+        // Repeat the pulse segments
+        var currentTime = (DateTime.Now - DateTime.Today).TotalSeconds;
+        var offset = (int)(currentTime * PULSESPEED) % PULSESIZE;
+
+        // Yield prefix
+        yield return new Segment(prefix, Style.Plain);
+        // Yield the bar
+        foreach (var seg in pulseSegments.Skip(offset).Take(width))
+            yield return seg;
+        // Yield suffix
         yield return new Segment(suffix, Style.Plain);
     }
 }

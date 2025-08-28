@@ -29,10 +29,15 @@ AnsiConsole.Progress()
 	)
 	.Start(ctx =>
 	{
-		var task = ctx.AddTask("[green1]Processing...[/]", maxValue: 100);
+        var task = ctx.AddTask("[green1]Processing...[/]", maxValue: 100);
+        var task2 = ctx.AddTask("[green1]More Processing...[/]", maxValue: 100);
+        var task3 = ctx.AddTask("[green1]Some Processing...[/]", maxValue: 100);
+        
 		task.IsIndeterminate = true;
+        task2.IsIndeterminate = true;
+        task3.IsIndeterminate = true;
 
-		Thread.Sleep(2000);
+        Thread.Sleep(2000);
 
 		task.IsIndeterminate = false;
 
