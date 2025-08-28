@@ -41,14 +41,16 @@ public class ProgressPatternGenerator : IIncrementalGenerator
             sb.AppendLine("namespace Spectre.Console.PaternProgress {");
             sb.AppendLine("public abstract partial class ProgressPattern {");
 
-            foreach (var kvp in patterns)
-            {
-                var name = ToPascalCase(kvp.Key) + "ProgressPattern";
-                sb.AppendLine($"    private sealed class {name} : ProgressPattern {{");
-                var charLiterals = string.Join(", ", kvp.Value.pattern.Select(p => ToCharLiteral(p)));
-                sb.AppendLine($"        public override IReadOnlyList<char> Pattern => new[] {{ {charLiterals} }};");
-                sb.AppendLine("    }");
-            }
+                foreach (var kvp in patterns)
+                {
+                    var name = ToPascalCase(kvp.Key) + "ProgressPattern";
+                    sb.AppendLine($"    private sealed class {name} : ProgressPattern {{");
+                    var charLiterals = string.Join(", ", kvp.Value.pattern.Select(p => ToCharLiteral(p)));
+                    sb.AppendLine($"        public override IReadOnlyList<char> Pattern => new[] {{ {charLiterals} }};");
+                    bool isUnicode = kvp.Value.pattern.Any(p => !string.IsNullOrEmpty(p) && p[0] > 127);
+                    sb.AppendLine($"        public override bool IsUnicode => {(isUnicode ? "true" : "false")};");
+                    sb.AppendLine("    }");
+                }
 
             sb.AppendLine("    public static class Known {");
             foreach (var kvp in patterns)

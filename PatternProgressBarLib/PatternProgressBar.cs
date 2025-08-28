@@ -28,7 +28,10 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
-        var pattern = ProgressPattern.Pattern;
+        var useAscii = !options.Unicode && ProgressPattern.IsUnicode;
+        var progressPattern = useAscii ? ProgressPattern.Known.Block : ProgressPattern ?? ProgressPattern.Known.Default;
+
+        var pattern = progressPattern.Pattern;
         var width = Math.Min(Width, maxWidth - Prefix.Length - Suffix.Length);
         if (IsIndeterminate)
         {

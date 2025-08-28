@@ -1,5 +1,6 @@
 ﻿
 using Spectre.Console;
+using Spectre.Console.PaternProgress;
 using Spectre.Console.PatternProgress;
 
 AnsiConsole.Progress()
@@ -15,7 +16,7 @@ AnsiConsole.Progress()
 			FilledStyle = new Style(foreground: Color.Green),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			// ProgressPattern = ProgressPattern.Known.Block
+			ProgressPattern = ProgressPattern.Known.Squares
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()
@@ -33,4 +34,3 @@ AnsiConsole.Progress()
 			Thread.Sleep(150);
 		}
 	});
-

@@ -1,6 +1,7 @@
 ﻿{
   "braille": {
     "isDefault": true,
+    "isUnicode": true,
     "pattern": [
       " ",
       "⡀",
@@ -14,6 +15,7 @@
     ]
   },
   "block": {
+    "isUnicode": true,
     "pattern": [
       " ",
       "▏",
@@ -23,6 +25,20 @@
       "▋",
       "▊",
       "▉",
+      "█"
+    ]
+  },
+  "squares":{
+    "isUnicode": true,
+    "pattern": [
+      " ",
+      "▢",
+      "▣",
+      "▤",
+      "▥",
+      "▦",
+      "▧",
+      "▨",
       "█"
     ]
   }
