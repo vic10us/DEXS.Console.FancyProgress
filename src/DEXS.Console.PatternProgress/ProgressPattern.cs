@@ -1,4 +1,4 @@
-﻿namespace Spectre.Console.PatternProgress;
+﻿namespace DEXS.Console.PatternProgress;
 
 public abstract partial class ProgressPattern
 {

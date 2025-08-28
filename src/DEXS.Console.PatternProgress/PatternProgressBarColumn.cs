@@ -1,7 +1,8 @@
-﻿using Spectre.Console.PatternProgress;
+﻿using DEXS.Console.PatternProgress;
+using Spectre.Console;
 using Spectre.Console.Rendering;
 
-namespace Spectre.Console.PatternProgress;
+namespace DEXS.Console.PatternProgress;
 
 public sealed class PatternProgressBarColumn : ProgressColumn
 {

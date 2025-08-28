@@ -52,8 +52,8 @@ public class ProgressPatternGenerator : IIncrementalGenerator
                 //     the code is regenerated.
                 // </auto-generated>
                 //------------------------------------------------------------------------------
-                
-                namespace Spectre.Console.PatternProgress;
+
+                namespace DEXS.Console.PatternProgress;
 
                 /// <summary>
                 /// Represents a progress bar pattern. This class is auto-generated from progressPatterns.json.

@@ -1,7 +1,8 @@
-﻿using Spectre.Console.Rendering;
+﻿using Spectre.Console;
+using Spectre.Console.Rendering;
 using System.Globalization;
 
-namespace Spectre.Console.PatternProgress;
+namespace DEXS.Console.PatternProgress;
 
 internal sealed class PatternProgressBar : Renderable, IHasCulture
 {

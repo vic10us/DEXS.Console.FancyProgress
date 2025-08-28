@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net9.0;net8.0;netstandard2.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Spectre.Console.PatternProgress</RootNamespace>
+  <RootNamespace>DEXS.Console.PatternProgress</RootNamespace>
     <!-- NuGet package metadata -->
     <PackageId>Spectre.Console.PatternProgress</PackageId>
     <Version>0.50.0</Version>
@@ -45,11 +45,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\Spectre.Console.PatternProgress.Generator\progressPatterns.json" />
+    <AdditionalFiles Include="..\DEXS.Console.PatternProgress.Generator\progressPatterns.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Spectre.Console.PatternProgress.Generator\Spectre.Console.PatternProgress.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\DEXS.Console.PatternProgress.Generator\Spectre.Console.PatternProgress.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

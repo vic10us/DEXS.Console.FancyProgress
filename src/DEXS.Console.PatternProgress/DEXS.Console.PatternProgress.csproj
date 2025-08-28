@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net9.0;net8.0;netstandard2.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+  <RootNamespace>DEXS.Console.PatternProgress</RootNamespace>
+    <!-- NuGet package metadata -->
+    <PackageId>DEXS.Console.PatternProgress</PackageId>
+    <Version>0.50.0</Version>
+    <Authors>vic10us</Authors>
+    <Company>vic10us</Company>
+    <Description>Pattern-based and emoji-aware progress bar columns for Spectre.Console, with Unicode and multi-target support.</Description>
+    <PackageTags>progressbar;console;unicode;emoji;spectre.console;dexs.console;dotnet;progress;cli</PackageTags>
+    <PackageProjectUrl>https://github.com/vic10us/Spectre.Console.PatternProgress</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vic10us/Spectre.Console.PatternProgress</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright © 2025 vic10us</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/vic10us/Spectre.Console.PatternProgress/main/resources/nuget/logo.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\resources\nuget\logo.png" Pack="true" PackagePath="logo.png" />
+  </ItemGroup>
+
+  <!-- Set C# 10 for netstandard2.0 to enable modern features -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <LangVersion>11</LangVersion>
+  </PropertyGroup>
+
+  <!-- Enable Nullable only for frameworks that support C# 8.0 or higher -->
+  <PropertyGroup>
+    <IsAotCompatible Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsAotCompatible>
+    <Nullable>enable</Nullable>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.50.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\DEXS.Console.PatternProgress.Generator\progressPatterns.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DEXS.Console.PatternProgress.Generator\DEXS.Console.PatternProgress.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+</Project>

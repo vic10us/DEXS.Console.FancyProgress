@@ -6,7 +6,7 @@
     <OutputItemType>Analyzer</OutputItemType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <AssemblyName>ProgressPatternSourceGen</AssemblyName>
-    <RootNamespace>Spectre.Console.PatternProgress.Generator</RootNamespace>
+  <RootNamespace>DEXS.Console.PatternProgress.Generator</RootNamespace>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>
 

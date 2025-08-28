@@ -1,5 +1,5 @@
 ﻿using Spectre.Console;
-using Spectre.Console.PatternProgress;
+using DEXS.Console.PatternProgress;
 
 
 foreach (var pattern in ProgressPattern.Known.AllPatterns)

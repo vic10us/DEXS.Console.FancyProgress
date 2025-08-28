@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Spectre.Console.PatternProgress\Spectre.Console.PatternProgress.csproj" />
+    <ProjectReference Include="..\DEXS.Console.PatternProgress\DEXS.Console.PatternProgress.csproj" />
   </ItemGroup>
 
 </Project>
