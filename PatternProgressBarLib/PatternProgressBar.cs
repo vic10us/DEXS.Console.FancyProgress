@@ -17,6 +17,14 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         return false;
     }
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
+    public Style IndeterminateStyle { get; set; } = DefaultPulseStyle;
+    public char UnicodeBar { get; set; } = '━';
+    public char AsciiBar { get; set; } = '-';
+    private const int PULSESIZE = 20;
+    private const int PULSESPEED = 15;
+
+    internal static Style DefaultPulseStyle { get; } = new Style(foreground: Color.DodgerBlue1, background: Color.Grey23);
+
     public double Value { get; set; }
     public double MaxValue { get; set; } = 100;
     public int Width { get; set; } = 40;
@@ -136,14 +144,6 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
         yield return new Segment(suffix, Style.Plain);
     }
-
-    public char UnicodeBar { get; set; } = '━';
-    public char AsciiBar { get; set; } = '-';
-    public Style IndeterminateStyle { get; set; } = DefaultPulseStyle;
-    private const int PULSESIZE = 20;
-    private const int PULSESPEED = 15;
-
-    internal static Style DefaultPulseStyle { get; } = new Style(foreground: Color.DodgerBlue1, background: Color.Grey23);
 
     private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, string prefix, string suffix)
     {

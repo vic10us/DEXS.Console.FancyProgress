@@ -6,17 +6,18 @@ AnsiConsole.Progress()
 	.AutoClear(false)
 	.Columns(
 		new TaskDescriptionColumn(),    // Task description
-		new ProgressBarColumn
-		{
-			IndeterminateStyle = new Style(foreground: Color.Green1)
-		},    // (Optional: Spectre's default bar)
+		// new ProgressBarColumn
+		// {
+		// 	IndeterminateStyle = new Style(foreground: Color.Green1)
+		// },    // (Optional: Spectre's default bar)
 		new PatternProgressBarColumn
 		{
 			Width = 40,
-			FilledStyle = new Style(foreground: Color.Green),
+			FilledStyle = new Style(foreground: Color.Green, background: Color.Black),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
 			ProgressPattern = ProgressPattern.Known.Braille,
+			IndeterminateStyle = new Style(foreground: Color.Green1),
 			Prefix = "｣",
 			Suffix = " ｢"
 		},
@@ -43,7 +44,17 @@ AnsiConsole.Progress()
 
 		while (!ctx.IsFinished)
 		{
+			if (task.Value >= task.MaxValue / 2)
+			{
+				task2.IsIndeterminate = false;
+				task2.Increment(1.5);
+				if (task2.Value >= task2.MaxValue / 2)
+				{
+					task3.IsIndeterminate = false;
+					task3.Increment(1.5);
+				}
+			}
 			task.Increment(1.5);
-			Thread.Sleep(150);
+			Thread.Sleep(20);
 		}
 	});

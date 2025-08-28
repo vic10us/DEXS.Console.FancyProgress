@@ -13,6 +13,11 @@ public sealed class PatternProgressBarColumn : ProgressColumn
     public string Suffix { get; set; } = "]";
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
 
+    /// <summary>
+    /// Gets or sets the style of an indeterminate progress bar.
+    /// </summary>
+    public Style IndeterminateStyle { get; set; } = PatternProgressBar.DefaultPulseStyle;
+
     public override IRenderable Render(RenderOptions options, ProgressTask task, TimeSpan deltaTime)
     {
         return new PatternProgressBar
@@ -26,6 +31,7 @@ public sealed class PatternProgressBarColumn : ProgressColumn
             Prefix = Prefix,
             Suffix = Suffix,
             IsIndeterminate = task.IsIndeterminate,
+            IndeterminateStyle = IndeterminateStyle,
             ProgressPattern = ProgressPattern
         };
     }
