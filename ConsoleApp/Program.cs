@@ -11,12 +11,15 @@ AnsiConsole.Progress()
 		// {
 		// 	IndeterminateStyle = new Style(foreground: Color.Green1)
 		// },    // (Optional: Spectre's default bar)
-		new PatternProgressBarColumn {
+		new PatternProgressBarColumn
+		{
 			Width = 30,
 			FilledStyle = new Style(foreground: Color.Green),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.Squares
+			ProgressPattern = ProgressPattern.Known.FatLoadingCursor,
+			Prefix = "｢",
+			Suffix = "｣"
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()

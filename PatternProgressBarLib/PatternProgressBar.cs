@@ -6,6 +6,15 @@ namespace Spectre.Console.PatternProgress;
 
 internal sealed class PatternProgressBar : Renderable, IHasCulture
 {
+    private static bool ContainsUnicode(string s)
+    {
+        foreach (var c in s)
+        {
+            if (c > 127)
+                return true;
+        }
+        return false;
+    }
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
     public double Value { get; set; }
     public double MaxValue { get; set; } = 100;
@@ -29,13 +38,17 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
         var useAscii = !options.Unicode && ProgressPattern.IsUnicode;
-        var progressPattern = useAscii ? ProgressPattern.Known.Block : ProgressPattern ?? ProgressPattern.Known.Default;
+        var progressPattern = useAscii ? ProgressPattern.Known.Ascii : ProgressPattern ?? ProgressPattern.Known.Default;
+
+        // If prefix or suffix contain Unicode, use ASCII [ and ] instead
+        string prefix = useAscii && ContainsUnicode(Prefix) ? "[" : Prefix;
+        string suffix = useAscii && ContainsUnicode(Suffix) ? "]" : Suffix;
 
         var pattern = progressPattern.Pattern;
-        var width = Math.Min(Width, maxWidth - Prefix.Length - Suffix.Length);
+        var width = Math.Min(Width, maxWidth - prefix.Length - suffix.Length);
         if (IsIndeterminate)
         {
-            foreach (var segment in RenderIndeterminate(options, width, pattern))
+            foreach (var segment in RenderIndeterminate(options, width, pattern, prefix, suffix))
                 yield return segment;
             yield break;
         }
@@ -47,7 +60,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         double remainder = scaled - fullUnits;
         int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
 
-        yield return new Segment(Prefix, Style.Plain);
+        yield return new Segment(prefix, Style.Plain);
 
         // Full cells
         for (int i = 0; i < fullUnits && i < width; i++)
@@ -67,15 +80,15 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         for (int i = consumed; i < width; i++)
             yield return new Segment(pattern[0].ToString(), EmptyStyle);
 
-        yield return new Segment(Suffix, Style.Plain);
+        yield return new Segment(suffix, Style.Plain);
     }
 
-    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, IReadOnlyList<char> pattern)
+    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, IReadOnlyList<char> pattern, string prefix, string suffix)
     {
         _phase = (_phase + 1) % (width * (pattern.Count - 1));
         int activeCell = _phase / (pattern.Count - 1);
         int density = _phase % (pattern.Count - 1);
-        yield return new Segment(Prefix, Style.Plain);
+        yield return new Segment(prefix, Style.Plain);
         for (int i = 0; i < width; i++)
         {
             if (i == activeCell)
@@ -83,6 +96,6 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             else
                 yield return new Segment(pattern[0].ToString(), EmptyStyle);
         }
-        yield return new Segment(Suffix, Style.Plain);
+        yield return new Segment(suffix, Style.Plain);
     }
 }

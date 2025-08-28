@@ -1,45 +1,163 @@
 ﻿{
   "braille": {
+    "isUnicode": true,
+    "pattern": [ " ", "⡀", "⣀", "⣄", "⣆", "⣇", "⣧", "⣷", "⣿" ]
+  },
+  "brailleStaggered": {
     "isDefault": true,
     "isUnicode": true,
-    "pattern": [
-      " ",
-      "⡀",
-      "⣀",
-      "⣄",
-      "⣤",
-      "⣦",
-      "⣶",
-      "⣷",
-      "⣿"
-    ]
+    "pattern": [ " ", "⡀", "⣀", "⣄", "⣤", "⣦", "⣶", "⣷", "⣿" ]
   },
-  "block": {
+  "squares": {
     "isUnicode": true,
-    "pattern": [
-      " ",
-      "▏",
-      "▎",
-      "▍",
-      "▌",
-      "▋",
-      "▊",
-      "▉",
-      "█"
-    ]
+    "pattern": [ " ", "▢", "▣", "▤", "▥", "▦", "▧", "▨", "█" ]
   },
-  "squares":{
+  "halfSquares": {
     "isUnicode": true,
-    "pattern": [
-      " ",
-      "▢",
-      "▣",
-      "▤",
-      "▥",
-      "▦",
-      "▧",
-      "▨",
-      "█"
-    ]
+    "pattern": [ "･", "￭" ]
+  },
+  "shade": {
+    "isUnicode": true,
+    "pattern": [ " ", "░", "▒", "▓", "█" ]
+  },
+  "verticalBlocks": {
+    "isUnicode": true,
+    "pattern": [ " ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ]
+  },
+  "horizontalBlocks": {
+    "isUnicode": true,
+    "pattern": [ " ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█" ]
+  },
+  "halfBlocks": {
+    "isUnicode": true,
+    "pattern": [ " ", "▄", "█" ]
+  },
+  "quarterBlocks": {
+    "isUnicode": true,
+    "pattern": [ " ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█" ]
+  },
+  "arrows": {
+    "isUnicode": true,
+    "pattern": [ " ", "➔", "➜", "➤", "➥", "➦", "➧", "➨", "➩", "➪", "➫", "➬", "➭", "➮", "➯", "➱", "➲", "➳", "➴", "➵", "➶", "➷", "➸", "➹", "➺", "➻", "➼", "➽", "➾" ]
+  },
+  "circles": {
+    "isUnicode": true,
+    "pattern": [ " ", "◔", "◑", "◕", "●" ]
+  },
+  "bubbles": {
+    "isUnicode": true,
+    "pattern": [ " ", "◌", "◍", "◎", "●" ]
+  },
+  "stars": {
+    "isUnicode": true,
+    "pattern": [ " ", "✩", "✪", "✫", "✬", "✭", "✮", "✯", "✰", "★", "☆" ]
+  },
+  "triangles": {
+    "isUnicode": true,
+    "pattern": [ " ", "△", "▲", "▴", "▵", "▸", "▶", "►" ]
+  },
+  "lowerBlocks": {
+    "isUnicode": true,
+    "pattern": [ " ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ]
+  },
+  "reverseShade": {
+    "isUnicode": true,
+    "pattern": [ " ", "▓", "▒", "░" ]
+  },
+  "forwardShade": {
+    "isUnicode": true,
+    "pattern": [ " ", "░", "▒", "▓" ]
+  },
+  "binary": {
+    "isUnicode": true,
+    "pattern": [ " ", "█" ]
+  },
+  "lowerEighthBlocks": {
+    "isUnicode": true,
+    "pattern": [ "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ]
+  },
+  "circlesFilled": {
+    "isUnicode": true,
+    "pattern": [ "○", "◔", "◐", "◕", "⬤" ]
+  },
+  "squaresFilled": {
+    "isUnicode": true,
+    "pattern": [ "□", "◱", "◧", "▣", "■" ]
+  },
+  "squaresDiag": {
+    "isUnicode": true,
+    "pattern": [ "□", "◱", "▨", "▩", "■" ]
+  },
+  "squaresShaded": {
+    "isUnicode": true,
+    "pattern": [ "□", "◱", "▥", "▦", "■" ]
+  },
+  "whiteBlack": {
+    "isUnicode": true,
+    "pattern": [ "⬜", "⬛" ]
+  },
+  "parallelogram": {
+    "isUnicode": true,
+    "pattern": [ "▱", "▰" ]
+  },
+  "rectangle": {
+    "isUnicode": true,
+    "pattern": [ "▭", "◼" ]
+  },
+  "rectBar": {
+    "isUnicode": true,
+    "pattern": [ "▯", "▮" ]
+  },
+  "circleBar": {
+    "isUnicode": true,
+    "pattern": [ "◯", "⬤" ]
+  },
+  "dotBar": {
+    "isUnicode": true,
+    "pattern": [ "⚪", "⚫" ]
+  },
+  "ascii": {
+    "isUnicode": false,
+    "pattern": [ " ", "░", "▒", "▓", "█" ]
+  },
+  "ascii2": {
+    "isUnicode": false,
+    "pattern": [ " ", "-", "=", "#", "*" ]
+  },
+  "ascii3": {
+    "isUnicode": false,
+    "pattern": [ " ", ".", ":", "|", "#" ]
+  },
+  "ascii4": {
+    "isUnicode": false,
+    "pattern": [ " ", "|", "|", "|", "|" ]
+  },
+  "dots": {
+    "isUnicode": false,
+    "pattern": [ " ", ".", ":", "o", "O", "@" ]
+  },
+  "hashes": {
+    "isUnicode": false,
+    "pattern": [ " ", ".", "-", "=", "#" ]
+  },
+  "equals": {
+    "isUnicode": false,
+    "pattern": [ " ", "-", "=", "≡" ]
+  },
+  "pipes": {
+    "isUnicode": false,
+    "pattern": [ " ", "|", "/", "|", "\\", "|", "/", "|", "\\", "|" ]
+  },
+  "classic": {
+    "isUnicode": false,
+    "pattern": [ " ", "-", "=", "#" ]
+  },
+  "minimal": {
+    "isUnicode": false,
+    "pattern": [ " ", "_", "-", "=", "█" ]
+  },
+  "fatLoadingCursor": {
+    "isUnicode": false,
+    "pattern": [ "▃", "▓", "▃" ]
   }
 }
