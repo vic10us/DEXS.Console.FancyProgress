@@ -3,6 +3,11 @@
 public abstract partial class ProgressPattern
 {
     /// <summary>
+    /// Gets the name associated with the current instance.
+    /// </summary>
+    public abstract string Name { get; }
+
+    /// <summary>
     /// Gets a value indicating whether the progress pattern uses Unicode characters.
     /// </summary>
     public abstract bool IsUnicode { get; }
