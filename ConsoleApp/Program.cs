@@ -13,9 +13,9 @@ AnsiConsole.Progress()
 		new PatternProgressBarColumn {
 			Width = 30,
 			FilledStyle = new Style(foreground: Color.Green),
-			FillingStyle = new Style(foreground: Color.Green1),
+			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			Pattern = PatternProgressBar.Braille
+			ProgressPattern = ProgressPattern.Known.Block
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()

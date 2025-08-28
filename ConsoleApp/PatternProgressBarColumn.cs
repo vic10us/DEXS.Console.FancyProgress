@@ -11,7 +11,7 @@ public sealed class PatternProgressBarColumn : ProgressColumn
     public Style EmptyStyle { get; set; } = new(foreground: Color.Grey35);
     public string Prefix { get; set; } = "[";
     public string Suffix { get; set; } = "]";
-    public char[] Pattern { get; set; } = PatternProgressBar.Braille;
+    public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
 
     public override IRenderable Render(RenderOptions options, ProgressTask task, TimeSpan deltaTime)
     {
@@ -26,7 +26,7 @@ public sealed class PatternProgressBarColumn : ProgressColumn
             Prefix = this.Prefix,
             Suffix = this.Suffix,
             IsIndeterminate = task.IsIndeterminate,
-            Pattern = this.Pattern
+            ProgressPattern = this.ProgressPattern
         };
     }
 }

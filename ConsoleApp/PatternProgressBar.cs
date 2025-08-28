@@ -6,10 +6,7 @@ namespace progress_bar_dotnet;
 
 internal sealed class PatternProgressBar : Renderable, IHasCulture
 {
-    public static readonly char[] Blocks = [' ', '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█'];
-    public static readonly char[] Braille = [' ', '⡀','⣀', '⣄', '⣤', '⣦', '⣶', '⣷', '⣿'];
-
-    public char[] Pattern { get; set; } = Braille;
+    public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
     public double Value { get; set; }
     public double MaxValue { get; set; } = 100;
     public int Width { get; set; } = 40;
@@ -21,6 +18,8 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     public bool IsIndeterminate { get; set; }
     public CultureInfo? Culture { get; set; }
 
+    private int _phase;
+
     protected override Measurement Measure(RenderOptions options, int maxWidth)
     {
         var width = Math.Min(Width, maxWidth);
@@ -29,7 +28,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
-        var pattern = Pattern ?? Braille;
+        var pattern = ProgressPattern.Pattern;
         var width = Math.Min(Width, maxWidth - Prefix.Length - Suffix.Length);
         if (IsIndeterminate)
         {
@@ -43,7 +42,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         double scaled = progress * totalUnits;
         int fullUnits = (int)Math.Floor(scaled);
         double remainder = scaled - fullUnits;
-        int partialIndex = (int)Math.Floor(remainder * (pattern.Length - 1));
+        int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
 
         yield return new Segment(Prefix, Style.Plain);
 
@@ -68,12 +67,11 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         yield return new Segment(Suffix, Style.Plain);
     }
 
-    private int _phase;
-    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, char[] pattern)
+    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, IReadOnlyList<char> pattern)
     {
-        _phase = (_phase + 1) % (width * (pattern.Length - 1));
-        int activeCell = _phase / (pattern.Length - 1);
-        int density = _phase % (pattern.Length - 1);
+        _phase = (_phase + 1) % (width * (pattern.Count - 1));
+        int activeCell = _phase / (pattern.Count - 1);
+        int density = _phase % (pattern.Count - 1);
         yield return new Segment(Prefix, Style.Plain);
         for (int i = 0; i < width; i++)
         {
