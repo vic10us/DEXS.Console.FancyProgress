@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "progress-bar-dotnet", "ConsoleApp\progress-bar-dotnet.csproj", "{9CF2E8C2-D035-49FF-8B41-76B77BC9E7E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "Spectre.Console.PatternProgress.SampleConsole\ConsoleApp.csproj", "{9CF2E8C2-D035-49FF-8B41-76B77BC9E7E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgressPatternSourceGen", "ProgressPatternSourceGen\ProgressPatternSourceGen.csproj", "{8A375246-0ED6-9608-41EF-DBBB1A9831A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Console.PatternProgress.Generator", "Spectre.Console.PatternProgress.Generator\Spectre.Console.PatternProgress.Generator.csproj", "{8A375246-0ED6-9608-41EF-DBBB1A9831A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternProgressBarLib", "PatternProgressBarLib\PatternProgressBarLib.csproj", "{C8DACEC6-10A8-F00C-DE79-E026529A763A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Console.PatternProgress", "Spectre.Console.PatternProgress\Spectre.Console.PatternProgress.csproj", "{C8DACEC6-10A8-F00C-DE79-E026529A763A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

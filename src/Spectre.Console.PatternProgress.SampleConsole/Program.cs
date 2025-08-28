@@ -6,10 +6,10 @@ AnsiConsole.Progress()
 	.AutoClear(false)
 	.Columns(
 		new TaskDescriptionColumn(),    // Task description
-		 new ProgressBarColumn
-		 {
-		 	IndeterminateStyle = new Style(foreground: Color.Green1)
-		 },    // (Optional: Spectre's default bar)
+		//  new ProgressBarColumn
+		//  {
+		//  	IndeterminateStyle = new Style(foreground: Color.Green1)
+		//  },    // (Optional: Spectre's default bar)
 		new PatternProgressBarColumn
 		{
 			Width = 40,

@@ -7,7 +7,7 @@ using System.Text.Json;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace ProgressPatternSourceGen;
+namespace Spectre.Console.PatternProgress.Generator;
 
 [Generator]
 public class ProgressPatternGenerator : IIncrementalGenerator

@@ -68,7 +68,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             // Render a bar of background (pattern[0]), with a single cursor (pattern[1]) at the progress position
             yield return new Segment(prefix, Style.Plain);
             int cursorColumns = barWidth;
-            int cursorPos = (int)Math.Round(Math.Clamp(Value / MaxValue, 0, 1) * (cursorColumns - 1));
+            int cursorPos = (int)Math.Round(ClampCompat(Value / MaxValue, 0, 1) * (cursorColumns - 1));
             for (int i = 0; i < cursorColumns; i++)
             {
                 if (i == cursorPos)
@@ -80,8 +80,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             yield break;
         }
 
-
-        double progress = Math.Clamp(Value / MaxValue, 0, 1);
+        double progress = ClampCompat(Value / MaxValue, 0, 1);
         int totalColumns = barWidth;
         int filledColumns = (int)Math.Floor(progress * totalColumns);
         double remainder = (progress * totalColumns) - filledColumns;
@@ -89,8 +88,6 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
         yield return new Segment(prefix, Style.Plain);
 
-
-        // Render bar using Unicode-aware width calculation
         int columnsRendered = 0;
         // Full cells
         while (columnsRendered < filledColumns)
@@ -139,10 +136,8 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             columnsRendered += w;
         }
 
-
         yield return new Segment(suffix, Style.Plain);
     }
-
     private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, string prefix, string suffix)
     {
         var bar = options.Unicode ? UnicodeBar.ToString() : AsciiBar.ToString();
@@ -196,4 +191,16 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         // Yield suffix
         yield return new Segment(suffix, Style.Plain);
     }
+    // Polyfill for Math.Clamp for netstandard2.0
+#if NETSTANDARD2_0
+    private static double ClampCompat(double value, double min, double max)
+    {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
+    }
+#else
+    private static double ClampCompat(double value, double min, double max)
+        => Math.Clamp(value, min, max);
+#endif
 }

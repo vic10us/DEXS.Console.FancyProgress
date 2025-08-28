@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<OutputType>Exe</OutputType>
+	<TargetFramework>net10.0</TargetFramework>
+	<RootNamespace>progress_bar_dotnet</RootNamespace>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
+    <PackageReference Include="Spectre.Console.Json" Version="0.50.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\Spectre.Console.PatternProgress\Spectre.Console.PatternProgress.csproj" />
+  </ItemGroup>
+
+</Project>

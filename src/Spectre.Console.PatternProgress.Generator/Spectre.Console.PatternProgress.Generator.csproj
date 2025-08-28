@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,7 +6,7 @@
     <OutputItemType>Analyzer</OutputItemType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <AssemblyName>ProgressPatternSourceGen</AssemblyName>
-    <RootNamespace>ProgressPatternSourceGen</RootNamespace>
+    <RootNamespace>Spectre.Console.PatternProgress.Generator</RootNamespace>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>
 
