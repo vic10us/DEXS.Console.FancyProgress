@@ -1,7 +1,6 @@
 ﻿using Spectre.Console.PaternProgress;
 using Spectre.Console.Rendering;
 using System.Globalization;
-using Wcwidth;
 
 namespace Spectre.Console.PatternProgress;
 
@@ -93,13 +92,14 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
         yield return new Segment(prefix, Style.Plain);
 
+
         // Render bar using Unicode-aware width calculation
         int columnsRendered = 0;
         // Full cells
         while (columnsRendered < filledColumns)
         {
             var ch = pattern[^1];
-            int w = UnicodeCalculator.GetWidth(ch);
+            int w = ch.GetWidth();
             if (columnsRendered + w > filledColumns)
                 break;
             yield return new Segment(ch.ToString(), FilledStyle);
@@ -112,7 +112,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             if (partialIndex > 0)
             {
                 var ch = pattern[partialIndex];
-                int w = UnicodeCalculator.GetWidth(ch);
+                int w = ch.GetWidth();
                 if (columnsRendered + w <= totalColumns)
                 {
                     yield return new Segment(ch.ToString(), FillingStyle);
@@ -122,7 +122,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             else
             {
                 var ch = pattern[0];
-                int w = UnicodeCalculator.GetWidth(ch);
+                int w = ch.GetWidth();
                 if (columnsRendered + w <= totalColumns)
                 {
                     yield return new Segment(ch.ToString(), EmptyStyle);
@@ -135,12 +135,13 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         while (columnsRendered < totalColumns)
         {
             var ch = pattern[0];
-            int w = UnicodeCalculator.GetWidth(ch);
+            int w = ch.GetWidth();
             if (columnsRendered + w > totalColumns)
                 break;
             yield return new Segment(ch.ToString(), EmptyStyle);
             columnsRendered += w;
         }
+
 
         yield return new Segment(suffix, Style.Plain);
     }

@@ -13,10 +13,10 @@ AnsiConsole.Progress()
 		new PatternProgressBarColumn
 		{
 			Width = 40,
-			FilledStyle = new Style(foreground: Color.Green, background: Color.Black),
+			FilledStyle = new Style(foreground: Color.Green, background: null),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.Braille,
+			ProgressPattern = ProgressPattern.Known.WhiteBlack,
 			IndeterminateStyle = new Style(foreground: Color.Green1),
 			Prefix = "｣",
 			Suffix = " ｢"
