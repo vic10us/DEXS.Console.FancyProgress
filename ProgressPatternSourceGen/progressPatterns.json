@@ -140,7 +140,7 @@
     "isUnicode": false,
     "pattern": [ " ", ".", "-", "=", "#" ]
   },
-  "equals": {
+  "equalSigns": {
     "isUnicode": false,
     "pattern": [ " ", "-", "=", "≡" ]
   },

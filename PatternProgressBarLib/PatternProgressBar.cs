@@ -35,14 +35,11 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     public bool IsIndeterminate { get; set; }
     public CultureInfo? Culture { get; set; }
 
-    private int _phase;
-
     protected override Measurement Measure(RenderOptions options, int maxWidth)
     {
         var width = Math.Min(Width, maxWidth);
         return new Measurement(4, width + Prefix.Length + Suffix.Length);
     }
-
 
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
