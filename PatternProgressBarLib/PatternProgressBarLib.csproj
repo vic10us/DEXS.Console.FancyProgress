@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<RootNamespace>Spectre.Console.PatternProgress</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.50.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Analyzer Include="..\ProgressPatternSourceGen\bin\Debug\netstandard2.0\ProgressPatternSourceGen.dll" />
+    <AdditionalFiles Include="..\ProgressPatternSourceGen\progressPatterns.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProgressPatternSourceGen\ProgressPatternSourceGen.csproj" />
+  </ItemGroup>
+
+</Project>

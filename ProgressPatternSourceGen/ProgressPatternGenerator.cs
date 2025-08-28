@@ -38,7 +38,7 @@ public class ProgressPatternGenerator : IIncrementalGenerator
                 return;
 
             var sb = new StringBuilder();
-            sb.AppendLine("namespace progress_bar_dotnet {");
+            sb.AppendLine("namespace Spectre.Console.PaternProgress {");
             sb.AppendLine("public abstract partial class ProgressPattern {");
 
             foreach (var kvp in patterns)

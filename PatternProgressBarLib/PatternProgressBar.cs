@@ -1,8 +1,8 @@
-using Spectre.Console;
+﻿using Spectre.Console.PaternProgress;
 using Spectre.Console.Rendering;
 using System.Globalization;
 
-namespace progress_bar_dotnet;
+namespace Spectre.Console.PatternProgress;
 
 internal sealed class PatternProgressBar : Renderable, IHasCulture
 {

@@ -1,4 +1,4 @@
-namespace progress_bar_dotnet;
+﻿namespace Spectre.Console.PaternProgress;
 
 public abstract partial class ProgressPattern
 {

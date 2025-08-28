@@ -1,7 +1,7 @@
-using Spectre.Console;
+﻿using Spectre.Console.PaternProgress;
 using Spectre.Console.Rendering;
 
-namespace progress_bar_dotnet;
+namespace Spectre.Console.PatternProgress;
 
 public sealed class PatternProgressBarColumn : ProgressColumn
 {
@@ -19,14 +19,14 @@ public sealed class PatternProgressBarColumn : ProgressColumn
         {
             Value = task.Value,
             MaxValue = task.MaxValue,
-            Width = this.Width,
-            FilledStyle = this.FilledStyle,
-            FillingStyle = this.FillingStyle,
-            EmptyStyle = this.EmptyStyle,
-            Prefix = this.Prefix,
-            Suffix = this.Suffix,
+            Width = Width,
+            FilledStyle = FilledStyle,
+            FillingStyle = FillingStyle,
+            EmptyStyle = EmptyStyle,
+            Prefix = Prefix,
+            Suffix = Suffix,
             IsIndeterminate = task.IsIndeterminate,
-            ProgressPattern = this.ProgressPattern
+            ProgressPattern = ProgressPattern
         };
     }
 }

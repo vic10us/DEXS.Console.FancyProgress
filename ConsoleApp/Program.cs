@@ -1,6 +1,6 @@
 ﻿
 using Spectre.Console;
-using progress_bar_dotnet;
+using Spectre.Console.PatternProgress;
 
 AnsiConsole.Progress()
 	.AutoClear(false)
