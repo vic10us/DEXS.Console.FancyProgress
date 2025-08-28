@@ -13,7 +13,7 @@ AnsiConsole.Progress()
 		// },    // (Optional: Spectre's default bar)
 		new PatternProgressBarColumn
 		{
-			Width = 30,
+			Width = 40,
 			FilledStyle = new Style(foreground: Color.Green),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),

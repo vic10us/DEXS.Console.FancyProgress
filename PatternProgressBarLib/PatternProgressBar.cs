@@ -1,6 +1,7 @@
 ﻿using Spectre.Console.PaternProgress;
 using Spectre.Console.Rendering;
 using System.Globalization;
+using Wcwidth;
 
 namespace Spectre.Console.PatternProgress;
 
@@ -35,6 +36,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         return new Measurement(4, width + Prefix.Length + Suffix.Length);
     }
 
+
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
         var useAscii = !options.Unicode && ProgressPattern.IsUnicode;
@@ -45,40 +47,73 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         string suffix = useAscii && ContainsUnicode(Suffix) ? "]" : Suffix;
 
         var pattern = progressPattern.Pattern;
-        var width = Math.Min(Width, maxWidth - prefix.Length - suffix.Length);
+        int barWidth = Math.Min(Width, maxWidth - prefix.Length - suffix.Length);
+        if (barWidth <= 0)
+            yield break;
+
         if (IsIndeterminate)
         {
-            foreach (var segment in RenderIndeterminate(options, width, pattern, prefix, suffix))
+            foreach (var segment in RenderIndeterminate(options, barWidth, pattern, prefix, suffix))
                 yield return segment;
             yield break;
         }
 
         double progress = Math.Clamp(Value / MaxValue, 0, 1);
-        double totalUnits = width;
-        double scaled = progress * totalUnits;
-        int fullUnits = (int)Math.Floor(scaled);
-        double remainder = scaled - fullUnits;
+        int totalColumns = barWidth;
+        int filledColumns = (int)Math.Floor(progress * totalColumns);
+        double remainder = (progress * totalColumns) - filledColumns;
         int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
 
         yield return new Segment(prefix, Style.Plain);
 
+        // Render bar using Unicode-aware width calculation
+        int columnsRendered = 0;
         // Full cells
-        for (int i = 0; i < fullUnits && i < width; i++)
-            yield return new Segment(pattern[^1].ToString(), FilledStyle);
+        while (columnsRendered < filledColumns)
+        {
+            var ch = pattern[^1];
+            int w = UnicodeCalculator.GetWidth(ch);
+            if (columnsRendered + w > filledColumns)
+                break;
+            yield return new Segment(ch.ToString(), FilledStyle);
+            columnsRendered += w;
+        }
 
         // Partial cell (only if not at the end)
-        if (fullUnits < width)
+        if (columnsRendered < totalColumns)
         {
             if (partialIndex > 0)
-                yield return new Segment(pattern[partialIndex].ToString(), FillingStyle);
+            {
+                var ch = pattern[partialIndex];
+                int w = UnicodeCalculator.GetWidth(ch);
+                if (columnsRendered + w <= totalColumns)
+                {
+                    yield return new Segment(ch.ToString(), FillingStyle);
+                    columnsRendered += w;
+                }
+            }
             else
-                yield return new Segment(pattern[0].ToString(), EmptyStyle);
+            {
+                var ch = pattern[0];
+                int w = UnicodeCalculator.GetWidth(ch);
+                if (columnsRendered + w <= totalColumns)
+                {
+                    yield return new Segment(ch.ToString(), EmptyStyle);
+                    columnsRendered += w;
+                }
+            }
         }
 
         // Remaining empty cells
-        int consumed = fullUnits + 1;
-        for (int i = consumed; i < width; i++)
-            yield return new Segment(pattern[0].ToString(), EmptyStyle);
+        while (columnsRendered < totalColumns)
+        {
+            var ch = pattern[0];
+            int w = UnicodeCalculator.GetWidth(ch);
+            if (columnsRendered + w > totalColumns)
+                break;
+            yield return new Segment(ch.ToString(), EmptyStyle);
+            columnsRendered += w;
+        }
 
         yield return new Segment(suffix, Style.Plain);
     }
