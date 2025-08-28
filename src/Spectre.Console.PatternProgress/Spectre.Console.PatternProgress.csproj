@@ -11,8 +11,8 @@
     <Company>vic10us</Company>
     <Description>Pattern-based and emoji-aware progress bar columns for Spectre.Console, with Unicode and multi-target support.</Description>
     <PackageTags>progressbar;console;unicode;emoji;spectre.console;dotnet;progress;cli</PackageTags>
-    <PackageProjectUrl>https://github.com/vic10us/progress-bar-dotnet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/vic10us/progress-bar-dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/vic10us/Spectre.Console.PatternProgress</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vic10us/Spectre.Console.PatternProgress</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright © 2025 vic10us</Copyright>
@@ -21,7 +21,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>logo.png</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/vic10us/progress-bar-dotnet/main/resources/nuget/logo.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/vic10us/Spectre.Console.PatternProgress/main/resources/nuget/logo.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
