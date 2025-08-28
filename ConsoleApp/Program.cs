@@ -1,5 +1,4 @@
-﻿
-using Spectre.Console;
+﻿using Spectre.Console;
 using Spectre.Console.PaternProgress;
 using Spectre.Console.PatternProgress;
 
@@ -7,19 +6,19 @@ AnsiConsole.Progress()
 	.AutoClear(false)
 	.Columns(
 		new TaskDescriptionColumn(),    // Task description
-		// new ProgressBarColumn
-		// {
-		// 	IndeterminateStyle = new Style(foreground: Color.Green1)
-		// },    // (Optional: Spectre's default bar)
+		new ProgressBarColumn
+		{
+			IndeterminateStyle = new Style(foreground: Color.Green1)
+		},    // (Optional: Spectre's default bar)
 		new PatternProgressBarColumn
 		{
 			Width = 40,
 			FilledStyle = new Style(foreground: Color.Green),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.FatLoadingCursor,
-			Prefix = "｢",
-			Suffix = "｣"
+			ProgressPattern = ProgressPattern.Known.Braille,
+			Prefix = "｣",
+			Suffix = " ｢"
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()
@@ -31,6 +30,12 @@ AnsiConsole.Progress()
 	.Start(ctx =>
 	{
 		var task = ctx.AddTask("[green1]Processing...[/]", maxValue: 100);
+		task.IsIndeterminate = true;
+
+		Thread.Sleep(2000);
+
+		task.IsIndeterminate = false;
+
 		while (!ctx.IsFinished)
 		{
 			task.Increment(1.5);

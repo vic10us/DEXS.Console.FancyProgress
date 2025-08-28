@@ -57,6 +57,25 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
                 yield return segment;
             yield break;
         }
+        
+        // Use IsCursor property for cursor mode
+        if (ProgressPattern != null && ProgressPattern.IsCursor)
+        {
+            // Render a bar of background (pattern[0]), with a single cursor (pattern[1]) at the progress position
+            yield return new Segment(prefix, Style.Plain);
+            int cursorColumns = barWidth;
+            int cursorPos = (int)Math.Round(Math.Clamp(Value / MaxValue, 0, 1) * (cursorColumns - 1));
+            for (int i = 0; i < cursorColumns; i++)
+            {
+                if (i == cursorPos)
+                    yield return new Segment(pattern[1].ToString(), FilledStyle);
+                else
+                    yield return new Segment(pattern[0].ToString(), EmptyStyle);
+            }
+            yield return new Segment(suffix, Style.Plain);
+            yield break;
+        }
+
 
         double progress = Math.Clamp(Value / MaxValue, 0, 1);
         int totalColumns = barWidth;

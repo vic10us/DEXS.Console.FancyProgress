@@ -24,7 +24,8 @@ public class ProgressPatternGenerator : IIncrementalGenerator
                 return null;
             try
             {
-                return JsonSerializer.Deserialize<Dictionary<string, ProgressPatternJson>>(text);
+                var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                return JsonSerializer.Deserialize<Dictionary<string, ProgressPatternJson>>(text, opts);
             }
             catch
             {
@@ -49,6 +50,7 @@ public class ProgressPatternGenerator : IIncrementalGenerator
                     sb.AppendLine($"        public override IReadOnlyList<char> Pattern => new[] {{ {charLiterals} }};");
                     bool isUnicode = kvp.Value.pattern.Any(p => !string.IsNullOrEmpty(p) && p[0] > 127);
                     sb.AppendLine($"        public override bool IsUnicode => {(isUnicode ? "true" : "false")};");
+                    sb.AppendLine($"        public override bool IsCursor => {(kvp.Value.isCursor ? "true" : "false")};");
                     sb.AppendLine("    }");
                 }
 
@@ -98,6 +100,7 @@ public class ProgressPatternGenerator : IIncrementalGenerator
     private class ProgressPatternJson
     {
         public bool isDefault { get; set; }
+        public bool isCursor { get; set; }
         public List<string> pattern { get; set; }
     }
 }
