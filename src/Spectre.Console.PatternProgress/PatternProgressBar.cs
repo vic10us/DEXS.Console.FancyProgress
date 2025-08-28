@@ -82,7 +82,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         // Full cells
         while (columnsRendered < filledColumns)
         {
-            var ch = pattern[^1];
+            var ch = pattern[pattern.Count - 1];
             int w = ch.GetWidth();
             if (columnsRendered + w > filledColumns)
                 break;
