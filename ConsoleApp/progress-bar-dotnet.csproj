@@ -1,4 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Analyzer Include="..\ProgressPatternSourceGen\bin\Debug\netstandard2.0\ProgressPatternSourceGen.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\ProgressPatternSourceGen\progressPatterns.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
@@ -6,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProgressBarDotNet\ProgressBarDotNet.csproj" />
+	<ProjectReference Include="..\ProgressPatternSourceGen\ProgressPatternSourceGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <PropertyGroup>

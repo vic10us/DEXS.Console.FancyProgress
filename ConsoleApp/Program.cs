@@ -15,7 +15,7 @@ AnsiConsole.Progress()
 			FilledStyle = new Style(foreground: Color.Green),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.Block
+			// ProgressPattern = ProgressPattern.Known.Block
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()
