@@ -4,20 +4,12 @@ using System.Globalization;
 
 namespace progress_bar_dotnet;
 
-internal sealed class BrailleProgressBar : Renderable, IHasCulture
+internal sealed class PatternProgressBar : Renderable, IHasCulture
 {
-    private static readonly char[] Braille = [
-        ' ',
-        '⡀',
-        '⣀',
-        '⣄',
-        '⣤',
-        '⣦',
-        '⣶',
-        '⣷',
-        '⣿'
-    ];
+    public static readonly char[] Blocks = [' ', '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█'];
+    public static readonly char[] Braille = [' ', '⡀','⣀', '⣄', '⣤', '⣦', '⣶', '⣷', '⣿'];
 
+    public char[] Pattern { get; set; } = Braille;
     public double Value { get; set; }
     public double MaxValue { get; set; } = 100;
     public int Width { get; set; } = 40;
@@ -37,10 +29,11 @@ internal sealed class BrailleProgressBar : Renderable, IHasCulture
 
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
+        var pattern = Pattern ?? Braille;
         var width = Math.Min(Width, maxWidth - Prefix.Length - Suffix.Length);
         if (IsIndeterminate)
         {
-            foreach (var segment in RenderIndeterminate(options, width))
+            foreach (var segment in RenderIndeterminate(options, width, pattern))
                 yield return segment;
             yield break;
         }
@@ -50,44 +43,44 @@ internal sealed class BrailleProgressBar : Renderable, IHasCulture
         double scaled = progress * totalUnits;
         int fullUnits = (int)Math.Floor(scaled);
         double remainder = scaled - fullUnits;
-        int partialIndex = (int)Math.Floor(remainder * (Braille.Length - 1));
+        int partialIndex = (int)Math.Floor(remainder * (pattern.Length - 1));
 
         yield return new Segment(Prefix, Style.Plain);
 
         // Full cells
         for (int i = 0; i < fullUnits && i < width; i++)
-            yield return new Segment(Braille[^1].ToString(), FilledStyle);
+            yield return new Segment(pattern[^1].ToString(), FilledStyle);
 
         // Partial cell (only if not at the end)
         if (fullUnits < width)
         {
             if (partialIndex > 0)
-                yield return new Segment(Braille[partialIndex].ToString(), FillingStyle);
+                yield return new Segment(pattern[partialIndex].ToString(), FillingStyle);
             else
-                yield return new Segment(Braille[0].ToString(), EmptyStyle);
+                yield return new Segment(pattern[0].ToString(), EmptyStyle);
         }
 
         // Remaining empty cells
         int consumed = fullUnits + 1;
         for (int i = consumed; i < width; i++)
-            yield return new Segment(Braille[0].ToString(), EmptyStyle);
+            yield return new Segment(pattern[0].ToString(), EmptyStyle);
 
         yield return new Segment(Suffix, Style.Plain);
     }
 
     private int _phase;
-    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width)
+    private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, char[] pattern)
     {
-        _phase = (_phase + 1) % (width * (Braille.Length - 1));
-        int activeCell = _phase / (Braille.Length - 1);
-        int density = _phase % (Braille.Length - 1);
+        _phase = (_phase + 1) % (width * (pattern.Length - 1));
+        int activeCell = _phase / (pattern.Length - 1);
+        int density = _phase % (pattern.Length - 1);
         yield return new Segment(Prefix, Style.Plain);
         for (int i = 0; i < width; i++)
         {
             if (i == activeCell)
-                yield return new Segment(Braille[density + 1].ToString(), FilledStyle);
+                yield return new Segment(pattern[density + 1].ToString(), FilledStyle);
             else
-                yield return new Segment(Braille[0].ToString(), EmptyStyle);
+                yield return new Segment(pattern[0].ToString(), EmptyStyle);
         }
         yield return new Segment(Suffix, Style.Plain);
     }

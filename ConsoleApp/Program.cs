@@ -10,11 +10,12 @@ AnsiConsole.Progress()
 		// {
 		// 	IndeterminateStyle = new Style(foreground: Color.Green1)
 		// },    // (Optional: Spectre's default bar)
-		new BrailleProgressBarColumn {
+		new PatternProgressBarColumn {
 			Width = 30,
 			FilledStyle = new Style(foreground: Color.Green),
 			FillingStyle = new Style(foreground: Color.Green1),
 			EmptyStyle = new Style(foreground: Color.Grey35),
+			Pattern = PatternProgressBar.Braille
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()
