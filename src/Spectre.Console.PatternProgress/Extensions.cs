@@ -2,6 +2,30 @@
 
 internal static class Extensions
 {
+    public static int GetWidth(this string s)
+    {
+        if (string.IsNullOrEmpty(s)) return 0;
+
+        // Use StringInfo to enumerate grapheme clusters (text elements)
+        int width = 0;
+        var enumerator = System.Globalization.StringInfo.GetTextElementEnumerator(s);
+        while (enumerator.MoveNext())
+        {
+            string grapheme = enumerator.GetTextElement();
+            // If grapheme is a single codepoint, use char width logic
+            if (grapheme.Length == 1)
+            {
+                width += grapheme[0].GetWidth();
+            }
+            else
+            {
+                // Multi-codepoint (emoji, ZWJ, etc): treat as width 2 (most emoji)
+                // This is a best-effort; for more accuracy, use a Unicode width table
+                width += 2;
+            }
+        }
+        return width;
+    }
     public static bool ContainsUnicode(this string s)
     {
         foreach (var c in s)

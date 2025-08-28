@@ -64,8 +64,8 @@ public class ProgressPatternGenerator : IIncrementalGenerator
             foreach (var kvp in patterns)
             {
                 var name = ToPascalCase(kvp.Key) + "ProgressPattern";
-                var charLiterals = string.Join(", ", kvp.Value.pattern.Select(p => ToCharLiteral(p)));
-                bool isUnicode = kvp.Value.pattern.Any(p => !string.IsNullOrEmpty(p) && p[0] > 127);
+                var stringLiterals = string.Join(", ", kvp.Value.pattern.Select(p => ToStringLiteral(p)));
+                bool isUnicode = kvp.Value.pattern.Any(p => !string.IsNullOrEmpty(p) && p.Any(ch => ch > 127));
 
                 sb.AppendLine($$"""
                 
@@ -76,7 +76,7 @@ public class ProgressPatternGenerator : IIncrementalGenerator
                         /// <inheritdoc/>
                         public override string Name => "{{kvp.Key}}";
                         /// <inheritdoc/>
-                        public override IReadOnlyList<char> Pattern => new[] { {{charLiterals}} };
+                        public override IReadOnlyList<string> Pattern => new[] { {{stringLiterals}} };
                         /// <inheritdoc/>
                         public override bool IsUnicode => {{(isUnicode ? "true" : "false")}};
                         /// <inheritdoc/>
@@ -148,21 +148,13 @@ public class ProgressPatternGenerator : IIncrementalGenerator
         return char.ToUpperInvariant(s[0]) + s.Substring(1);
     }
 
-    private static string ToCharLiteral(string s)
+    private static string ToStringLiteral(string s)
     {
-        if (string.IsNullOrEmpty(s) || s.Length != 1)
-            throw new ArgumentException($"Pattern entry '{s}' is not a single character.");
-        var c = s[0];
-        switch (c)
-        {
-            case '\\': return "'\\\\'";
-            case '\'': return "'\\\''";
-            case '"': return "'\\\"'";
-            default:
-                if (char.IsControl(c) || char.IsWhiteSpace(c) || c > 127)
-                    return $"'\\u{(int)c:x4}'";
-                return $"'{c}'";
-        }
+        if (s == null)
+            return "null";
+        // Escape backslashes and quotes for C# string literal
+        var escaped = s.Replace("\\", "\\\\").Replace("\"", "\\\"");
+        return $"\"{escaped}\"";
     }
 
     private class ProgressPatternJson

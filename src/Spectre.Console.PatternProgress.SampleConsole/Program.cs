@@ -76,7 +76,7 @@ AnsiConsole.Progress()
 			FilledStyle = new Style(foreground: Color.Green, background: null),
 			FillingStyle = new Style(foreground: Color.Yellow4),
 			EmptyStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.Braille,
+			ProgressPattern = ProgressPattern.Known.Stars,
 		},
 		new RemainingTimeColumn(),      // Remaining time
 		new SpinnerColumn()

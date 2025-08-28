@@ -7,8 +7,8 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 {
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
     public Style IndeterminateStyle { get; set; } = DefaultPulseStyle;
-    public char UnicodeBar { get; set; } = '━';
-    public char AsciiBar { get; set; } = '-';
+    public string UnicodeBar { get; set; } = "━";
+    public string AsciiBar { get; set; } = "-";
     private const int PULSESIZE = 20;
     private const int PULSESPEED = 15;
 
@@ -62,9 +62,9 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             for (int i = 0; i < cursorColumns; i++)
             {
                 if (i == cursorPos)
-                    yield return new Segment(pattern[1].ToString(), FilledStyle);
+                    yield return new Segment(pattern[1], FilledStyle);
                 else
-                    yield return new Segment(pattern[0].ToString(), EmptyStyle);
+                    yield return new Segment(pattern[0], EmptyStyle);
             }
             yield return new Segment(suffix, Style.Plain);
             yield break;
@@ -86,7 +86,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             int w = ch.GetWidth();
             if (columnsRendered + w > filledColumns)
                 break;
-            yield return new Segment(ch.ToString(), FilledStyle);
+            yield return new Segment(ch, FilledStyle);
             columnsRendered += w;
         }
 
@@ -99,7 +99,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
                 int w = ch.GetWidth();
                 if (columnsRendered + w <= totalColumns)
                 {
-                    yield return new Segment(ch.ToString(), FillingStyle);
+                    yield return new Segment(ch, FillingStyle);
                     columnsRendered += w;
                 }
             }
@@ -109,7 +109,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
                 int w = ch.GetWidth();
                 if (columnsRendered + w <= totalColumns)
                 {
-                    yield return new Segment(ch.ToString(), EmptyStyle);
+                    yield return new Segment(ch, EmptyStyle);
                     columnsRendered += w;
                 }
             }
@@ -122,7 +122,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             int w = ch.GetWidth();
             if (columnsRendered + w > totalColumns)
                 break;
-            yield return new Segment(ch.ToString(), EmptyStyle);
+            yield return new Segment(ch, EmptyStyle);
             columnsRendered += w;
         }
 
@@ -130,7 +130,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     }
     private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, string prefix, string suffix)
     {
-        var bar = options.Unicode ? UnicodeBar.ToString() : AsciiBar.ToString();
+    var bar = options.Unicode ? UnicodeBar : AsciiBar;
         var style = IndeterminateStyle ?? DefaultPulseStyle;
 
         IEnumerable<Segment> GetPulseSegments()

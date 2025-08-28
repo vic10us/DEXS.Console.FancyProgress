@@ -18,7 +18,7 @@ public abstract partial class ProgressPattern
     public abstract bool IsCursor { get; }
 
     /// <summary>
-    /// Gets the character pattern used for the progress bar.
+    /// Gets the string pattern used for the progress bar (can be emoji or multi-char).
     /// </summary>
-    public abstract IReadOnlyList<char> Pattern { get; }
+    public abstract IReadOnlyList<string> Pattern { get; }
 }

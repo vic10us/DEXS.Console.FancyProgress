@@ -120,6 +120,10 @@
     "isUnicode": true,
     "pattern": [ "⚪", "⚫" ]
   },
+  "sportsBalls": {
+   "isUnicode": true,
+   "pattern": [ "⚽", "🏀", "🏈", "⚾", "🎾", "🏐", "🏉", "🎱", "🎳" ]
+  },
   "ascii": {
     "isUnicode": false,
     "pattern": [ " ", "░", "▒", "▓", "█" ]
