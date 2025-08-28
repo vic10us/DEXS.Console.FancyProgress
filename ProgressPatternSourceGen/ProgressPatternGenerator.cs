@@ -39,7 +39,7 @@ public class ProgressPatternGenerator : IIncrementalGenerator
                 return;
 
             var sb = new StringBuilder();
-            sb.AppendLine("namespace Spectre.Console.PaternProgress {");
+            sb.AppendLine("namespace Spectre.Console.PaternProgress;");
             sb.AppendLine("public abstract partial class ProgressPattern {");
 
                 foreach (var kvp in patterns)
@@ -64,7 +64,6 @@ public class ProgressPatternGenerator : IIncrementalGenerator
             if (!string.IsNullOrEmpty(defaultPattern))
                 sb.AppendLine($"        public static ProgressPattern Default {{ get; }} = new {ToPascalCase(defaultPattern)}ProgressPattern();");
             sb.AppendLine("    }");
-            sb.AppendLine("}");
             sb.AppendLine("}");
 
             spc.AddSource("ProgressPattern.Generated.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
