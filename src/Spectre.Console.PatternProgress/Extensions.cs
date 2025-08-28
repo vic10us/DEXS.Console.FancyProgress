@@ -1,7 +1,17 @@
-namespace Spectre.Console.PatternProgress;
+﻿namespace Spectre.Console.PatternProgress;
 
-internal static class CharacterExtensions
+internal static class Extensions
 {
+    public static bool ContainsUnicode(this string s)
+    {
+        foreach (var c in s)
+        {
+            if (c > 127)
+                return true;
+        }
+        return false;
+    }
+
     public static int GetWidth(this char c)
     {
         // Control chars, non-spacing marks

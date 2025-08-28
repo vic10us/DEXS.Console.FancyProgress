@@ -1,5 +1,4 @@
 ﻿using Spectre.Console;
-using Spectre.Console.PaternProgress;
 using Spectre.Console.PatternProgress;
 
 AnsiConsole.Progress()

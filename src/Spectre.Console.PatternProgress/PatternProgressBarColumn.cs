@@ -1,4 +1,4 @@
-﻿using Spectre.Console.PaternProgress;
+﻿using Spectre.Console.PatternProgress;
 using Spectre.Console.Rendering;
 
 namespace Spectre.Console.PatternProgress;

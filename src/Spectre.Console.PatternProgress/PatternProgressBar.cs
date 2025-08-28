@@ -1,20 +1,10 @@
-﻿using Spectre.Console.PaternProgress;
-using Spectre.Console.Rendering;
+﻿using Spectre.Console.Rendering;
 using System.Globalization;
 
 namespace Spectre.Console.PatternProgress;
 
 internal sealed class PatternProgressBar : Renderable, IHasCulture
 {
-    private static bool ContainsUnicode(string s)
-    {
-        foreach (var c in s)
-        {
-            if (c > 127)
-                return true;
-        }
-        return false;
-    }
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
     public Style IndeterminateStyle { get; set; } = DefaultPulseStyle;
     public char UnicodeBar { get; set; } = '━';
@@ -47,8 +37,8 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         var progressPattern = useAscii ? ProgressPattern.Known.Ascii : ProgressPattern ?? ProgressPattern.Known.Default;
 
         // If prefix or suffix contain Unicode, use ASCII [ and ] instead
-        string prefix = useAscii && ContainsUnicode(Prefix) ? "[" : Prefix;
-        string suffix = useAscii && ContainsUnicode(Suffix) ? "]" : Suffix;
+        string prefix = useAscii && Prefix.ContainsUnicode() ? "[" : Prefix;
+        string suffix = useAscii && Suffix.ContainsUnicode() ? "]" : Suffix;
 
         var pattern = progressPattern.Pattern;
         int barWidth = Math.Min(Width, maxWidth - prefix.Length - suffix.Length);

@@ -52,7 +52,7 @@ public class ProgressPatternGenerator : IIncrementalGenerator
             sb.AppendLine("// </auto-generated>");
             sb.AppendLine("//------------------------------------------------------------------------------");
             sb.AppendLine();
-            sb.AppendLine("namespace Spectre.Console.PaternProgress;");
+            sb.AppendLine("namespace Spectre.Console.PatternProgress;");
             sb.AppendLine();
             sb.AppendLine("/// <summary>");
             sb.AppendLine("/// Represents a progress bar pattern. This class is auto-generated from progressPatterns.json.");
