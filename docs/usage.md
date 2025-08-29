@@ -19,9 +19,11 @@ AnsiConsole.Progress()
         new PatternProgressBarColumn
         {
             Width = 40,
-            FilledStyle = new Style(foreground: Color.Green),
-            FillingStyle = new Style(foreground: Color.Yellow4),
-            EmptyStyle = new Style(foreground: Color.Grey35),
+            ProgressStyle = new Style(foreground: Color.Green),
+            ProgressTailStyle = new Style(foreground: Color.Yellow4),
+            CompletedStyle = new Style(foreground: Color.Lime),
+            CompletedTailStyle = new Style(foreground: Color.Green),
+            RemainingStyle = new Style(foreground: Color.Grey35),
             ProgressPattern = ProgressPattern.Known.Braille,
         },
         new PercentageColumn(),
@@ -101,11 +103,12 @@ Example JSON entry:
 ---
 
 
-## Gradient Support
 
-You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressEndStyle` on the `PatternProgressBarColumn`. The bar will smoothly blend from the foreground color of `ProgressStyle` (start) to the foreground color of `ProgressEndStyle` (end) as progress increases.
+## Gradient and Tail Style Support
 
-**How to enable a gradient:**
+You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressTailStyle` (for in-progress) or `CompletedStyle` and `CompletedTailStyle` (for completed) on the `PatternProgressBarColumn`. The bar will smoothly blend from the start color to the tail color as progress increases.
+
+**How to enable a gradient and tail style:**
 
 ```csharp
 AnsiConsole.Progress()
@@ -114,7 +117,9 @@ AnsiConsole.Progress()
         {
             Width = 40,
             ProgressStyle = new Style(foreground: new Color(0, 255, 163)), // Start color
-            ProgressEndStyle = new Style(foreground: new Color(177, 79, 255)), // End color
+            ProgressTailStyle = new Style(foreground: new Color(177, 79, 255)), // End color (tail)
+            CompletedStyle = new Style(foreground: Color.Lime),
+            CompletedTailStyle = new Style(foreground: Color.Green),
             RemainingStyle = new Style(foreground: Color.Grey35),
             ProgressPattern = ProgressPattern.Known.UnicodeBar
         },
@@ -125,13 +130,13 @@ AnsiConsole.Progress()
 
 **Properties:**
 
-- `ProgressStyle`: The style (color) at the start of the filled bar (left side).
-- `ProgressEndStyle`: The style (color) at the end of the filled bar (right side, at current progress). Set the foreground to a color to enable the gradient.
+- `ProgressStyle`: The style (color) at the start of the filled bar (left side, in-progress).
+- `ProgressTailStyle`: The style (color) at the end of the filled bar (right side, in-progress). Set the foreground to a color to enable the gradient.
+- `CompletedStyle`: The style for the start of the bar when completed.
+- `CompletedTailStyle`: The style for the end of the bar when completed.
 - `RemainingStyle`: The style for the unfilled portion.
 
-If `ProgressEndStyle.Foreground` is set to `Color.Default`, no gradient is applied and the bar uses a solid color from `ProgressStyle`.
-
----
+If `ProgressTailStyle.Foreground` or `CompletedTailStyle.Foreground` is set to `Color.Default`, no gradient is applied and the bar uses a solid color from the corresponding start style.
 
 ## Advanced: Indeterminate Bars & Cursor Mode
 

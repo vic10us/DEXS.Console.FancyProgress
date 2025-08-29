@@ -32,11 +32,42 @@ AnsiConsole.Progress()
         new PatternProgressBarColumn
         {
             Width = 40,
-            FilledStyle = new Style(foreground: Color.Green),
-            FillingStyle = new Style(foreground: Color.Yellow4),
-            EmptyStyle = new Style(foreground: Color.Grey35),
+            ProgressStyle = new Style(foreground: Color.Green),
+            ProgressTailStyle = new Style(foreground: Color.Yellow4),
+            CompletedStyle = new Style(foreground: Color.Lime),
+            CompletedTailStyle = new Style(foreground: Color.Green),
+            RemainingStyle = new Style(foreground: Color.Grey35),
             ProgressPattern = ProgressPattern.Known.Braille,
         },
+## Gradient and Tail Style Support
+
+You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressTailStyle` (for in-progress) or `CompletedStyle` and `CompletedTailStyle` (for completed) on the `PatternProgressBarColumn`. The bar will smoothly blend from the start color to the tail color as progress increases.
+
+**Example:**
+
+```csharp
+new PatternProgressBarColumn
+{
+    Width = 40,
+    ProgressStyle = new Style(foreground: new Color(0, 255, 163)), // Start color
+    ProgressTailStyle = new Style(foreground: new Color(177, 79, 255)), // End color (tail)
+    CompletedStyle = new Style(foreground: Color.Lime),
+    CompletedTailStyle = new Style(foreground: Color.Green),
+    RemainingStyle = new Style(foreground: Color.Grey35),
+    ProgressPattern = ProgressPattern.Known.UnicodeBar
+}
+```
+
+**Properties:**
+
+- `ProgressStyle`: The style (color) at the start of the filled bar (left side, in-progress).
+- `ProgressTailStyle`: The style (color) at the end of the filled bar (right side, in-progress). Set the foreground to a color to enable the gradient.
+- `CompletedStyle`: The style for the start of the bar when completed.
+- `CompletedTailStyle`: The style for the end of the bar when completed.
+- `RemainingStyle`: The style for the unfilled portion.
+
+If `ProgressTailStyle.Foreground` or `CompletedTailStyle.Foreground` is set to `Color.Default`, no gradient is applied and the bar uses a solid color from the corresponding start style.
+
         new PercentageColumn(),
         new RemainingTimeColumn(),
         new SpinnerColumn { Spinner = Spinner.Known.Dots12 }
@@ -100,7 +131,7 @@ You can also add your own patterns by editing `progressPatterns.json` and rebuil
 
 ## Documentation
 
-See [docs/usage.md](docs/usage.md) for advanced usage, API details, and more examples.
+See [docs/usage.md](docs/usage.md) for advanced usage, API details, and more examples, including custom patterns and advanced styling.
 
 ---
 
