@@ -1,8 +1,10 @@
-# DEXS.Console.PatternProgress Usage Guide
+# DEXS.Console.PatternProgress Usage
 
 ## Overview
 
 `DEXS.Console.PatternProgress` provides a drop-in, highly customizable progress bar column for Spectre.Console, supporting Unicode, emoji, and custom patterns.
+
+![resources/gfx/demo.gif](https://raw.githubusercontent.com/vic10us/Spectre.Console.PatternProgress/refs/heads/main/resources/gfx/demo.gif)
 
 ---
 
@@ -81,29 +83,10 @@ foreach (var pattern in ProgressPattern.Known.AllPatterns)
 
 ---
 
-## Customizing Patterns
-
-- To add your own patterns, edit `progressPatterns.json` in the generator project and rebuild.
-- Each pattern can use Unicode, emoji, or ASCII.
-
-Example JSON entry:
-
-```json
-{
-  "stars": {
-    "pattern": ["☆", "★"],
-    "isDefault": false,
-    "isCursor": false
-  }
-}
-```
-
----
-
 ## Advanced: Indeterminate Bars & Cursor Mode
 
 - Use `IsIndeterminate` on the task for animated bars.
-- Use patterns with `isCursor: true` for cursor-style progress.
+- Use patterns with `IsCursor: true` for cursor-style progress.
 
 ---
 
@@ -113,6 +96,3 @@ Example JSON entry:
 - `ProgressPattern.Known` (all built-in patterns)
 - `ProgressPattern` (base class for custom patterns)
 
----
-
-For more, see the root [README.md](../README.md).
