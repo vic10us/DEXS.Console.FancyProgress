@@ -2,7 +2,7 @@
 
 ## Overview
 
-`DEXS.Console.FancyProgress` provides a drop-in, highly customizable progress bar column for Spectre.Console, supporting Unicode, emoji, and custom patterns.
+`DEXS.Console.FancyProgress` provides a drop-in, highly customizable progress bar column for Spectre.Console, supporting Unicode, emoji, gradients, and custom patterns.
 
 ---
 
@@ -101,8 +101,6 @@ Example JSON entry:
 ```
 
 ---
-
-
 
 ## Gradient and Tail Style Support
 

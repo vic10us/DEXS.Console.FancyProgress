@@ -4,7 +4,7 @@
 
 `DEXS.Console.FancyProgress` provides a drop-in, highly customizable progress bar column for Spectre.Console, supporting Unicode, emoji, and custom patterns.
 
-![resources/gfx/demo.gif](https://raw.githubusercontent.com/vic10us/Spectre.Console.FancyProgress/refs/heads/main/resources/gfx/demo.gif)
+![resources/gfx/demo.gif](https://raw.githubusercontent.com/vic10us/DEXS.Console.FancyProgress/refs/heads/main/resources/gfx/demo.gif)
 
 ---
 
@@ -69,8 +69,6 @@ new FancyProgressBarColumn
 - `RemainingStyle`: The style for the unfilled portion.
 
 If `ProgressTailStyle.Foreground` or `CompletedTailStyle.Foreground` is set to `Color.Default`, no gradient is applied and the bar uses a solid color from the corresponding start style.
-
-
 
 ---
 

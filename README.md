@@ -39,6 +39,21 @@ AnsiConsole.Progress()
             RemainingStyle = new Style(foreground: Color.Grey35),
             ProgressPattern = ProgressPattern.Known.Braille,
         },
+        new PercentageColumn(),
+        new RemainingTimeColumn(),
+        new SpinnerColumn { Spinner = Spinner.Known.Dots12 }
+    )
+    .Start(ctx =>
+    {
+        var task = ctx.AddTask("[green1]Processing...[/]", maxValue: 100);
+        while (!ctx.IsFinished)
+        {
+            task.Increment(1.5);
+            Thread.Sleep(20);
+        }
+    });
+```
+
 ## Gradient and Tail Style Support
 
 You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressTailStyle` (for in-progress) or `CompletedStyle` and `CompletedTailStyle` (for completed) on the `FancyProgressBarColumn`. The bar will smoothly blend from the start color to the tail color as progress increases.
@@ -67,21 +82,6 @@ new FancyProgressBarColumn
 - `RemainingStyle`: The style for the unfilled portion.
 
 If `ProgressTailStyle.Foreground` or `CompletedTailStyle.Foreground` is set to `Color.Default`, no gradient is applied and the bar uses a solid color from the corresponding start style.
-
-        new PercentageColumn(),
-        new RemainingTimeColumn(),
-        new SpinnerColumn { Spinner = Spinner.Known.Dots12 }
-    )
-    .Start(ctx =>
-    {
-        var task = ctx.AddTask("[green1]Processing...[/]", maxValue: 100);
-        while (!ctx.IsFinished)
-        {
-            task.Increment(1.5);
-            Thread.Sleep(20);
-        }
-    });
-```
 
 ## All Built-in Patterns
 
