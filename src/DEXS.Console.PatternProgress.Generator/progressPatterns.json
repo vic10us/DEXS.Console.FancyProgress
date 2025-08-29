@@ -168,5 +168,13 @@
     "isUnicode": true,
     "isCursor": true,
     "pattern": [ "━", "█", "━" ]
+  },
+  "unicodeBar": {
+    "isUnicode": true,
+    "pattern": [ "━", "━" ]
+  },
+  "asciiBar": {
+    "isUnicode": false,
+    "pattern": [ "-", "-" ]
   }
 }

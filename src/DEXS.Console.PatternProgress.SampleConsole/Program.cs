@@ -7,18 +7,14 @@ AnsiConsole.Progress()
 	.AutoClear(false)
 	.Columns(
 		new TaskDescriptionColumn(),    // Task description
-        new ProgressBarColumn
-        {
-            Width = 40,
-            
-		},
 		new PatternProgressBarColumn
 		{
 			Width = 40,
-			CompletedStyle = new Style(foreground: Color.Green, background: null),
-			PartiallyCompletedStyle = new Style(foreground: Color.Yellow4),
+			CompletedStyle = new Style(foreground: Color.Green, background: Color.Default),
+			ProgressStyle = new Style(foreground: new Color(0, 255, 163)),
+			ProgressEndStyle = new Style(foreground: new Color(177, 79, 255)),
 			RemainingStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.Braille,
+			ProgressPattern = ProgressPattern.Known.UnicodeBar
 		},
         new PercentageColumn(),
 		new RemainingTimeColumn(),      // Remaining time

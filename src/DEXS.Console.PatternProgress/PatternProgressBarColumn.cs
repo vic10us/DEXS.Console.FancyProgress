@@ -8,10 +8,11 @@ public sealed class PatternProgressBarColumn : ProgressColumn
 {
     public int Width { get; set; } = 40;
     public Style CompletedStyle { get; set; } = new(foreground: Color.Green);
-    public Style PartiallyCompletedStyle { get; set; } = new(foreground: Color.Orange1);
+    public Style ProgressStyle { get; set; } = new(foreground: Color.Orange1);
+    public Style ProgressEndStyle { get; set; } = new(foreground: Color.Default);
     public Style RemainingStyle { get; set; } = new(foreground: Color.Grey35);
-    public string Prefix { get; set; } = "[";
-    public string Suffix { get; set; } = "]";
+    public string Prefix { get; set; } = "";
+    public string Suffix { get; set; } = "";
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
 
     /// <summary>
@@ -27,7 +28,8 @@ public sealed class PatternProgressBarColumn : ProgressColumn
             MaxValue = task.MaxValue,
             Width = Width,
             CompletedStyle = CompletedStyle,
-            PartiallyCompletedStyle = PartiallyCompletedStyle,
+            ProgressStyle = ProgressStyle,
+            ProgressEndStyle = ProgressEndStyle,
             RemainingStyle = RemainingStyle,
             Prefix = Prefix,
             Suffix = Suffix,

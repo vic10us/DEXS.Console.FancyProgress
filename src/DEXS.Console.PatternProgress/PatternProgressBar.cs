@@ -23,13 +23,19 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     /// <summary>
     /// Style for the filling (in-progress) part of the progress bar.
     /// </summary>
-    public Style PartiallyCompletedStyle { get; set; } = new(foreground: Color.Orange1);
+    public Style ProgressStyle { get; set; } = new(foreground: Color.Orange1);
+
+    /// <summary>
+    /// Style for the filling (in-progress) part of the progress bar.
+    /// Used for gradient if the foreground/background are not Color.Default
+    /// </summary>
+    public Style ProgressEndStyle { get; set; } = new(foreground: Color.Default);
 
     /// <summary>
     /// Style for the remaining (unfilled) part of the progress bar.
     /// </summary>
     public Style RemainingStyle { get; set; } = new(foreground: Color.Grey35);
-    
+
     public string Prefix { get; set; } = "";
     public string Suffix { get; set; } = "";
     public bool IsIndeterminate { get; set; }
@@ -44,12 +50,19 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         var width = Math.Min(Width, maxWidth);
         return new Measurement(4, width + Prefix.Length + Suffix.Length);
     }
+    
+    internal static Color BlendColor(Color start, Color end, float t)
+    {
+        if (start == end) return end;
+        var blend = start.Blend(end, t);
+        return (blend == 0) ? end : blend;
+    }
 
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
         var useAscii = !options.Unicode && ProgressPattern.IsUnicode;
-        var progressPattern = useAscii ? ProgressPattern.Known.Ascii : ProgressPattern ?? ProgressPattern.Known.Default;
-        
+        var progressPattern = useAscii ? ProgressPattern.Known.AsciiBar : ProgressPattern ?? ProgressPattern.Known.Default;
+
         // If prefix or suffix contain Unicode, use ASCII [ and ] instead
         string prefix = useAscii && Prefix.ContainsUnicode() ? "" : Prefix;
         string suffix = useAscii && Suffix.ContainsUnicode() ? "" : Suffix;
@@ -85,27 +98,42 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
         }
 
         double progress = ClampCompat(Value / MaxValue, 0, 1);
-        // int totalColumns = barWidth;
         int filledColumns = (int)Math.Floor(progress * barWidth);
         var completedBarCount = Math.Min(MaxValue, Math.Max(0, Value));
         var isCompleted = completedBarCount >= MaxValue;
         double remainder = (progress * barWidth) - filledColumns;
         int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
-        var style = isCompleted ? CompletedStyle : PartiallyCompletedStyle;
-        
+        var style = isCompleted ? CompletedStyle : ProgressStyle;
+
         yield return new Segment(prefix, style);
 
         int columnsRendered = 0;
 
-        // Full cells
-        while (columnsRendered < filledColumns)
+        // Full cells with optional gradient
+        for (int i = 0; columnsRendered < filledColumns;)
         {
             var ch = pattern[pattern.Count - 1];
             int w = ch.GetWidth();
+            
             if (columnsRendered + w > filledColumns)
                 break;
-            yield return new Segment(ch, style);
+
+            Style cellStyle = style;
+            
+            if (!isCompleted && (ProgressEndStyle.Foreground != Color.Default || ProgressEndStyle.Background != Color.Default))
+            {
+                // Calculate gradient color for this position
+                double t = (double)i / (filledColumns - 1);
+                
+                // Compute the foreground and background gradient based on the ProgressEndStyle
+                var fgColor = BlendColor(ProgressEndStyle.Foreground, style.Foreground, (float)t);
+                var bgColor = BlendColor(ProgressEndStyle.Background, style.Background, (float)t);
+
+                cellStyle = new Style(foreground: fgColor, background: bgColor);
+            }
+            yield return new Segment(ch, cellStyle);
             columnsRendered += w;
+            i++;
         }
 
         // Partial cell (only if not at the end)
@@ -117,7 +145,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
                 int w = ch.GetWidth();
                 if (columnsRendered + w <= barWidth)
                 {
-                    yield return new Segment(ch, PartiallyCompletedStyle);
+                    yield return new Segment(ch, ProgressStyle);
                     columnsRendered += w;
                 }
             }
