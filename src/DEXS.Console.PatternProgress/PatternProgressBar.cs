@@ -83,8 +83,17 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             yield break;
         }
 
+        double progress = ClampCompat(Value / MaxValue, 0, 1);
+        int filledColumns = (int)Math.Floor(progress * barWidth);
+        var completedBarCount = Math.Min(MaxValue, Math.Max(0, Value));
+        var isCompleted = completedBarCount >= MaxValue;
+        double remainder = (progress * barWidth) - filledColumns;
+        int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
+        var style = isCompleted ? CompletedStyle : ProgressStyle;
+        var tailStyle = isCompleted ? CompletedTailStyle : ProgressTailStyle;
+
         // Use IsCursor property for cursor mode
-        if (ProgressPattern != null && ProgressPattern.IsCursor)
+        if (!isCompleted && ProgressPattern != null && ProgressPattern.IsCursor)
         {
             // Render a bar of background (pattern[0]), with a single cursor (pattern[1]) at the progress position
             yield return new Segment(prefix, Style.Plain);
@@ -101,14 +110,6 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             yield break;
         }
 
-        double progress = ClampCompat(Value / MaxValue, 0, 1);
-        int filledColumns = (int)Math.Floor(progress * barWidth);
-        var completedBarCount = Math.Min(MaxValue, Math.Max(0, Value));
-        var isCompleted = completedBarCount >= MaxValue;
-        double remainder = (progress * barWidth) - filledColumns;
-        int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
-        var style = isCompleted ? CompletedStyle : ProgressStyle;
-
         yield return new Segment(prefix, style);
 
         int columnsRendered = 0;
@@ -124,14 +125,14 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
             Style cellStyle = style;
             
-            if (!isCompleted && (ProgressTailStyle.Foreground != Color.Default || ProgressTailStyle.Background != Color.Default))
+            if (tailStyle.Foreground != Color.Default || tailStyle.Background != Color.Default)
             {
                 // Calculate gradient color for this position
                 double t = (double)i / (filledColumns - 1);
                 
                 // Compute the foreground and background gradient based on the ProgressEndStyle
-                var fgColor = BlendColor(ProgressTailStyle.Foreground, style.Foreground, (float)t);
-                var bgColor = BlendColor(ProgressTailStyle.Background, style.Background, (float)t);
+                var fgColor = BlendColor(tailStyle.Foreground, style.Foreground, (float)t);
+                var bgColor = BlendColor(tailStyle.Background, style.Background, (float)t);
 
                 cellStyle = new Style(foreground: fgColor, background: bgColor);
             }
