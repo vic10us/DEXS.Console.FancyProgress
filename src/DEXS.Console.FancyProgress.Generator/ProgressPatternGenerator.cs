@@ -7,7 +7,7 @@ using System.Text.Json;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace Spectre.Console.PatternProgress.Generator;
+namespace Spectre.Console.FancyProgress.Generator;
 
 [Generator]
 public class ProgressPatternGenerator : IIncrementalGenerator
@@ -53,7 +53,7 @@ public class ProgressPatternGenerator : IIncrementalGenerator
                 // </auto-generated>
                 //------------------------------------------------------------------------------
 
-                namespace DEXS.Console.PatternProgress;
+                namespace DEXS.Console.FancyProgress;
 
                 /// <summary>
                 /// Represents a progress bar pattern. This class is auto-generated from progressPatterns.json.

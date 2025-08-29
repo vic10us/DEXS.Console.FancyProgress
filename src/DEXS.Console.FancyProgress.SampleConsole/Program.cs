@@ -1,5 +1,5 @@
 ﻿using Spectre.Console;
-using DEXS.Console.PatternProgress;
+using DEXS.Console.FancyProgress;
 
 // Console.ReadLine();
 
@@ -7,7 +7,7 @@ AnsiConsole.Progress()
 	.AutoClear(false)
 	.Columns(
 		new TaskDescriptionColumn(),    // Task description
-		new PatternProgressBarColumn
+		new FancyProgressBarColumn
 		{
 			Width = 40,
 			CompletedStyle = new Style(foreground: Color.Green),

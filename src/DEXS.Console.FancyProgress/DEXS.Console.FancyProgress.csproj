@@ -3,17 +3,17 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net9.0;net8.0;netstandard2.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>DEXS.Console.PatternProgress</RootNamespace>
+    <RootNamespace>DEXS.Console.FancyProgress</RootNamespace>
     <!-- NuGet package metadata -->
-    <PackageId>DEXS.Console.PatternProgress</PackageId>
-    <PackageReadmeFile>DEXS.Console.PatternProgress.md</PackageReadmeFile>
+    <PackageId>DEXS.Console.FancyProgress</PackageId>
+    <PackageReadmeFile>DEXS.Console.FancyProgress.md</PackageReadmeFile>
     <Version>0.50.1</Version>
     <Authors>vic10us</Authors>
     <Company>vic10us</Company>
     <Description>Pattern-based and emoji-aware progress bar columns for Spectre.Console, with Unicode and multi-target support.</Description>
     <PackageTags>progressbar;console;unicode;emoji;spectre.console;dexs.console;dotnet;progress;cli</PackageTags>
-    <PackageProjectUrl>https://github.com/vic10us/Spectre.Console.PatternProgress</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/vic10us/Spectre.Console.PatternProgress</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/vic10us/Spectre.Console.FancyProgress</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vic10us/Spectre.Console.FancyProgress</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright © 2025 vic10us</Copyright>
@@ -22,11 +22,11 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>logo.png</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/vic10us/Spectre.Console.PatternProgress/main/resources/nuget/logo.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/vic10us/Spectre.Console.FancyProgress/main/resources/nuget/logo.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\resources\nuget\DEXS.Console.PatternProgress.md">
+    <None Include="..\..\resources\nuget\DEXS.Console.FancyProgress.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -50,11 +50,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\DEXS.Console.PatternProgress.Generator\progressPatterns.json" />
+    <AdditionalFiles Include="..\DEXS.Console.FancyProgress.Generator\progressPatterns.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DEXS.Console.PatternProgress.Generator\DEXS.Console.PatternProgress.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\DEXS.Console.FancyProgress.Generator\DEXS.Console.FancyProgress.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

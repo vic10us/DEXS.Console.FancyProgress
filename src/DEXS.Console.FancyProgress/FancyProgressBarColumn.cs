@@ -1,10 +1,10 @@
-﻿using DEXS.Console.PatternProgress;
+﻿using DEXS.Console.FancyProgress;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
-namespace DEXS.Console.PatternProgress;
+namespace DEXS.Console.FancyProgress;
 
-public sealed class PatternProgressBarColumn : ProgressColumn
+public sealed class FancyProgressBarColumn : ProgressColumn
 {
     public int Width { get; set; } = 40;
     public Style CompletedStyle { get; set; } = new(foreground: Color.Green);
@@ -19,11 +19,11 @@ public sealed class PatternProgressBarColumn : ProgressColumn
     /// <summary>
     /// Gets or sets the style of an indeterminate progress bar.
     /// </summary>
-    public Style IndeterminateStyle { get; set; } = PatternProgressBar.DefaultPulseStyle;
+    public Style IndeterminateStyle { get; set; } = FancyProgressBar.DefaultPulseStyle;
 
     public override IRenderable Render(RenderOptions options, ProgressTask task, TimeSpan deltaTime)
     {
-        return new PatternProgressBar
+        return new FancyProgressBar
         {
             Value = task.Value,
             MaxValue = task.MaxValue,

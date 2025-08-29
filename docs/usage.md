@@ -1,8 +1,8 @@
-# DEXS.Console.PatternProgress Usage Guide
+# DEXS.Console.FancyProgress Usage Guide
 
 ## Overview
 
-`DEXS.Console.PatternProgress` provides a drop-in, highly customizable progress bar column for Spectre.Console, supporting Unicode, emoji, and custom patterns.
+`DEXS.Console.FancyProgress` provides a drop-in, highly customizable progress bar column for Spectre.Console, supporting Unicode, emoji, and custom patterns.
 
 ---
 
@@ -10,13 +10,13 @@
 
 ```csharp
 using Spectre.Console;
-using DEXS.Console.PatternProgress;
+using DEXS.Console.FancyProgress;
 
 AnsiConsole.Progress()
     .AutoClear(false)
     .Columns(
         new TaskDescriptionColumn(),
-        new PatternProgressBarColumn
+        new FancyProgressBarColumn
         {
             Width = 40,
             ProgressStyle = new Style(foreground: Color.Green),
@@ -48,7 +48,7 @@ AnsiConsole.Progress()
 You can define your own progress bar patterns at runtime by subclassing `ProgressPattern` directly in your application code—no need to edit the JSON or recompile the library. Example:
 
 ```csharp
-using DEXS.Console.PatternProgress;
+using DEXS.Console.FancyProgress;
 
 public class MyCustomPattern : ProgressPattern
 {
@@ -66,7 +66,7 @@ var customPattern = new MyCustomPattern();
 
 AnsiConsole.Progress()
     .Columns(
-        new PatternProgressBarColumn { 
+        new FancyProgressBarColumn { 
             ProgressPattern = customPattern 
         }
         // ... other columns ...
@@ -106,14 +106,14 @@ Example JSON entry:
 
 ## Gradient and Tail Style Support
 
-You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressTailStyle` (for in-progress) or `CompletedStyle` and `CompletedTailStyle` (for completed) on the `PatternProgressBarColumn`. The bar will smoothly blend from the start color to the tail color as progress increases.
+You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressTailStyle` (for in-progress) or `CompletedStyle` and `CompletedTailStyle` (for completed) on the `FancyProgressBarColumn`. The bar will smoothly blend from the start color to the tail color as progress increases.
 
 **How to enable a gradient and tail style:**
 
 ```csharp
 AnsiConsole.Progress()
     .Columns(
-        new PatternProgressBarColumn
+        new FancyProgressBarColumn
         {
             Width = 40,
             ProgressStyle = new Style(foreground: new Color(0, 255, 163)), // Start color
@@ -147,7 +147,7 @@ If `ProgressTailStyle.Foreground` or `CompletedTailStyle.Foreground` is set to `
 
 ## API Reference
 
-- `PatternProgressBarColumn` (main column type)
+- `FancyProgressBarColumn` (main column type)
 - `ProgressPattern.Known` (all built-in patterns)
 - `ProgressPattern` (base class for custom patterns)
 

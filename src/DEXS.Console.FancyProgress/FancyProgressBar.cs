@@ -2,9 +2,9 @@
 using Spectre.Console.Rendering;
 using System.Globalization;
 
-namespace DEXS.Console.PatternProgress;
+namespace DEXS.Console.FancyProgress;
 
-internal sealed class PatternProgressBar : Renderable, IHasCulture
+internal sealed class FancyProgressBar : Renderable, IHasCulture
 {
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
     public Style IndeterminateStyle { get; set; } = DefaultPulseStyle;

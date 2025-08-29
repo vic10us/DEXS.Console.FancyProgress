@@ -1,4 +1,4 @@
-﻿namespace DEXS.Console.PatternProgress;
+﻿namespace DEXS.Console.FancyProgress;
 
 internal static class EnumerableExtensions
 {

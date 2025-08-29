@@ -1,25 +1,14 @@
-# DEXS.Console.FancyProgress
+# DEXS.Console.FancyProgress Usage
 
-A multi-targeted, emoji-aware, and highly customizable progress bar column library for [Spectre.Console](https://spectreconsole.net/). Supports .NET 8, 9, 10, and netstandard2.0. No third-party dependencies.
+## Overview
 
-![caption](resources/gfx/demo.gif)
+`DEXS.Console.FancyProgress` provides a drop-in, highly customizable progress bar column for Spectre.Console, supporting Unicode, emoji, and custom patterns.
 
-## Features
-- Unicode and emoji support (grapheme-aware)
-- Custom progress bar patterns (including emoji, Unicode, ASCII)
-- Source generator for easy pattern extension
-- Multi-targeted: net8.0, net9.0, net10.0, netstandard2.0
-- No third-party dependencies
+![resources/gfx/demo.gif](https://raw.githubusercontent.com/vic10us/Spectre.Console.FancyProgress/refs/heads/main/resources/gfx/demo.gif)
 
-## Quick Start
+---
 
-Install via NuGet:
-
-```
-dotnet add package DEXS.Console.FancyProgress
-```
-
-## Basic Usage
+## Basic Example
 
 ```csharp
 using Spectre.Console;
@@ -33,12 +22,25 @@ AnsiConsole.Progress()
         {
             Width = 40,
             ProgressStyle = new Style(foreground: Color.Green),
-            ProgressTailStyle = new Style(foreground: Color.Yellow4),
             CompletedStyle = new Style(foreground: Color.Lime),
-            CompletedTailStyle = new Style(foreground: Color.Green),
             RemainingStyle = new Style(foreground: Color.Grey35),
             ProgressPattern = ProgressPattern.Known.Braille,
         },
+        new PercentageColumn(),
+        new RemainingTimeColumn(),
+        new SpinnerColumn { Spinner = Spinner.Known.Dots12 }
+    )
+    .Start(ctx =>
+    {
+        var task = ctx.AddTask("[green1]Processing...[/]", maxValue: 100);
+        while (!ctx.IsFinished)
+        {
+            task.Increment(1.5);
+            Thread.Sleep(20);
+        }
+    });
+```
+
 ## Gradient and Tail Style Support
 
 You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressTailStyle` (for in-progress) or `CompletedStyle` and `CompletedTailStyle` (for completed) on the `FancyProgressBarColumn`. The bar will smoothly blend from the start color to the tail color as progress increases.
@@ -68,29 +70,9 @@ new FancyProgressBarColumn
 
 If `ProgressTailStyle.Foreground` or `CompletedTailStyle.Foreground` is set to `Color.Default`, no gradient is applied and the bar uses a solid color from the corresponding start style.
 
-        new PercentageColumn(),
-        new RemainingTimeColumn(),
-        new SpinnerColumn { Spinner = Spinner.Known.Dots12 }
-    )
-    .Start(ctx =>
-    {
-        var task = ctx.AddTask("[green1]Processing...[/]", maxValue: 100);
-        while (!ctx.IsFinished)
-        {
-            task.Increment(1.5);
-            Thread.Sleep(20);
-        }
-    });
-```
 
-## All Built-in Patterns
 
-```csharp
-foreach (var pattern in ProgressPattern.Known.AllPatterns)
-{
-    AnsiConsole.WriteLine($"Pattern: {pattern.Name} - {string.Join("", pattern.Pattern)}");
-}
-```
+---
 
 ## Using Custom Patterns at Runtime
 
@@ -123,16 +105,25 @@ AnsiConsole.Progress()
     .Start(ctx => { /* ... */ });
 ```
 
----
-
-## Custom Patterns (via Code Generator)
-
-You can also add your own patterns by editing `progressPatterns.json` and rebuilding the project (requires recompiling the library).
-
-## Documentation
-
-See [docs/usage.md](docs/usage.md) for advanced usage, API details, and more examples, including custom patterns and advanced styling.
+```csharp
+foreach (var pattern in ProgressPattern.Known.AllPatterns)
+{
+    AnsiConsole.WriteLine($"Pattern: {pattern.Name} - {string.Join("", pattern.Pattern)}");
+}
+```
 
 ---
 
-MIT License | Copyright (c) 2025 vic10us
+## Advanced: Indeterminate Bars & Cursor Mode
+
+- Use `IsIndeterminate` on the task for animated bars.
+- Use patterns with `IsCursor: true` for cursor-style progress.
+
+---
+
+## API Reference
+
+- `FancyProgressBarColumn` (main column type)
+- `ProgressPattern.Known` (all built-in patterns)
+- `ProgressPattern` (base class for custom patterns)
+

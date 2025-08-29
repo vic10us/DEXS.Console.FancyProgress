@@ -1,4 +1,4 @@
-﻿namespace DEXS.Console.PatternProgress;
+﻿namespace DEXS.Console.FancyProgress;
 
 public abstract partial class ProgressPattern
 {
