@@ -1,5 +1,8 @@
 # DEXS.Console.FancyProgress
 
+_[![DEXS.Console.FancyProgress NuGet Version](https://img.shields.io/nuget/v/DEXS.Console.FancyProgress.svg?style=flat&label=NuGet%3A%20DEXS.Console.FancyProgress)](https://www.nuget.org/packages/DEXS.Console.FancyProgress)_
+
+
 A multi-targeted, emoji-aware, and highly customizable progress bar column library for [Spectre.Console](https://spectreconsole.net/). Supports .NET 8, 9, 10, and netstandard2.0. No third-party dependencies.
 
 ![caption](resources/gfx/demo.gif)

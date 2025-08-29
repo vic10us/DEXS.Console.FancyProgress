@@ -55,21 +55,14 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
         return new Measurement(4, width + Prefix.Length + Suffix.Length);
     }
     
-    internal static Color BlendColor(Color start, Color end, float t)
-    {
-        if (start == end) return end;
-        var blend = start.Blend(end, t);
-        return (blend == 0) ? end : blend;
-    }
-
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
     {
-        var useAscii = !options.Unicode && ProgressPattern.IsUnicode;
-        var progressPattern = useAscii ? ProgressPattern.Known.AsciiBar : ProgressPattern ?? ProgressPattern.Known.Default;
+        var useAsciiFallback = !options.Unicode && ProgressPattern.IsUnicode;
+        var progressPattern = useAsciiFallback ? ProgressPattern.Known.AsciiBar : ProgressPattern ?? ProgressPattern.Known.Default;
 
         // If prefix or suffix contain Unicode, use ASCII [ and ] instead
-        string prefix = useAscii && Prefix.ContainsUnicode() ? "" : Prefix;
-        string suffix = useAscii && Suffix.ContainsUnicode() ? "" : Suffix;
+        string prefix = useAsciiFallback && Prefix.ContainsUnicode() ? "" : Prefix;
+        string suffix = useAsciiFallback && Suffix.ContainsUnicode() ? "" : Suffix;
 
         var pattern = progressPattern.Pattern;
         int barWidth = Math.Min(Width, maxWidth - prefix.Length - suffix.Length);
@@ -83,7 +76,7 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
             yield break;
         }
 
-        double progress = ClampCompat(Value / MaxValue, 0, 1);
+        double progress = Clamp(Value / MaxValue, 0, 1);
         int filledColumns = (int)Math.Floor(progress * barWidth);
         var completedBarCount = Math.Min(MaxValue, Math.Max(0, Value));
         var isCompleted = completedBarCount >= MaxValue;
@@ -91,7 +84,7 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
         int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
         var style = isCompleted ? CompletedStyle : ProgressStyle;
         var tailStyle = isCompleted ? CompletedTailStyle : ProgressTailStyle;
-        if (useAscii)
+        if (useAsciiFallback)
         {
             // make the style decorations bold
             style = new Style(foreground: style.Foreground, background: style.Background, decoration: Decoration.Bold);
@@ -104,7 +97,7 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
             // Render a bar of background (pattern[0]), with a single cursor (pattern[1]) at the progress position
             yield return new Segment(prefix, Style.Plain);
             int cursorColumns = barWidth;
-            int cursorPos = (int)Math.Round(ClampCompat(Value / MaxValue, 0, 1) * (cursorColumns - 1));
+            int cursorPos = (int)Math.Round(Clamp(Value / MaxValue, 0, 1) * (cursorColumns - 1));
             for (int i = 0; i < cursorColumns; i++)
             {
                 if (i == cursorPos)
@@ -239,16 +232,24 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
         // Yield suffix
         yield return new Segment(suffix, Style.Plain);
     }
+
+    internal static Color BlendColor(Color start, Color end, float t)
+    {
+        if (start == end) return end;
+        var blend = start.Blend(end, t);
+        return (blend == 0) ? end : blend;
+    }
+
     // Polyfill for Math.Clamp for netstandard2.0
 #if NETSTANDARD2_0
-    private static double ClampCompat(double value, double min, double max)
+    private static double Clamp(double value, double min, double max)
     {
         if (value < min) return min;
         if (value > max) return max;
         return value;
     }
 #else
-    private static double ClampCompat(double value, double min, double max)
+    private static double Clamp(double value, double min, double max)
         => Math.Clamp(value, min, max);
 #endif
 }
