@@ -91,6 +91,12 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
         int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
         var style = isCompleted ? CompletedStyle : ProgressStyle;
         var tailStyle = isCompleted ? CompletedTailStyle : ProgressTailStyle;
+        if (useAscii)
+        {
+            // make the style decorations bold
+            style = new Style(foreground: style.Foreground, background: style.Background, decoration: Decoration.Bold);
+            tailStyle = new Style(foreground: tailStyle.Foreground, background: tailStyle.Background, decoration: Decoration.Bold);
+        }
 
         // Use IsCursor property for cursor mode
         if (!isCompleted && ProgressPattern != null && ProgressPattern.IsCursor)
