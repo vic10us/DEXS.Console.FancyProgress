@@ -7,9 +7,9 @@ namespace DEXS.Console.PatternProgress;
 public sealed class PatternProgressBarColumn : ProgressColumn
 {
     public int Width { get; set; } = 40;
-    public Style FilledStyle { get; set; } = new(foreground: Color.Green);
-    public Style FillingStyle { get; set; } = new(foreground: Color.Orange1);
-    public Style EmptyStyle { get; set; } = new(foreground: Color.Grey35);
+    public Style CompletedStyle { get; set; } = new(foreground: Color.Green);
+    public Style PartiallyCompletedStyle { get; set; } = new(foreground: Color.Orange1);
+    public Style RemainingStyle { get; set; } = new(foreground: Color.Grey35);
     public string Prefix { get; set; } = "[";
     public string Suffix { get; set; } = "]";
     public ProgressPattern ProgressPattern { get; set; } = ProgressPattern.Known.Default;
@@ -26,9 +26,9 @@ public sealed class PatternProgressBarColumn : ProgressColumn
             Value = task.Value,
             MaxValue = task.MaxValue,
             Width = Width,
-            FilledStyle = FilledStyle,
-            FillingStyle = FillingStyle,
-            EmptyStyle = EmptyStyle,
+            CompletedStyle = CompletedStyle,
+            PartiallyCompletedStyle = PartiallyCompletedStyle,
+            RemainingStyle = RemainingStyle,
             Prefix = Prefix,
             Suffix = Suffix,
             IsIndeterminate = task.IsIndeterminate,

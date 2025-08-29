@@ -10,21 +10,34 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     public Style IndeterminateStyle { get; set; } = DefaultPulseStyle;
     public string UnicodeBar { get; set; } = "━";
     public string AsciiBar { get; set; } = "-";
-    private const int PULSESIZE = 20;
-    private const int PULSESPEED = 15;
-
-    internal static Style DefaultPulseStyle { get; } = new Style(foreground: Color.DodgerBlue1, background: Color.Grey23);
-
     public double Value { get; set; }
     public double MaxValue { get; set; } = 100;
     public int Width { get; set; } = 40;
-    public Style FilledStyle { get; set; } = new(foreground: Color.Green);
-    public Style FillingStyle { get; set; } = new(foreground: Color.Orange1);
-    public Style EmptyStyle { get; set; } = new(foreground: Color.Grey35);
-    public string Prefix { get; set; } = "[";
-    public string Suffix { get; set; } = "]";
+    
+    /// <summary>
+    /// Style for the filled (completed) part of the progress bar.
+    /// </summary>
+    /// <returns></returns>
+    public Style CompletedStyle { get; set; } = new(foreground: Color.Green);
+
+    /// <summary>
+    /// Style for the filling (in-progress) part of the progress bar.
+    /// </summary>
+    public Style PartiallyCompletedStyle { get; set; } = new(foreground: Color.Orange1);
+
+    /// <summary>
+    /// Style for the remaining (unfilled) part of the progress bar.
+    /// </summary>
+    public Style RemainingStyle { get; set; } = new(foreground: Color.Grey35);
+    
+    public string Prefix { get; set; } = "";
+    public string Suffix { get; set; } = "";
     public bool IsIndeterminate { get; set; }
     public CultureInfo? Culture { get; set; }
+
+    private const int PULSESIZE = 20;
+    private const int PULSESPEED = 15;
+    internal static Style DefaultPulseStyle { get; } = new Style(foreground: Color.DodgerBlue1, background: Color.Grey23);
 
     protected override Measurement Measure(RenderOptions options, int maxWidth)
     {
@@ -36,10 +49,10 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     {
         var useAscii = !options.Unicode && ProgressPattern.IsUnicode;
         var progressPattern = useAscii ? ProgressPattern.Known.Ascii : ProgressPattern ?? ProgressPattern.Known.Default;
-
+        
         // If prefix or suffix contain Unicode, use ASCII [ and ] instead
-        string prefix = useAscii && Prefix.ContainsUnicode() ? "[" : Prefix;
-        string suffix = useAscii && Suffix.ContainsUnicode() ? "]" : Suffix;
+        string prefix = useAscii && Prefix.ContainsUnicode() ? "" : Prefix;
+        string suffix = useAscii && Suffix.ContainsUnicode() ? "" : Suffix;
 
         var pattern = progressPattern.Pattern;
         int barWidth = Math.Min(Width, maxWidth - prefix.Length - suffix.Length);
@@ -63,23 +76,27 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             for (int i = 0; i < cursorColumns; i++)
             {
                 if (i == cursorPos)
-                    yield return new Segment(pattern[1], FilledStyle);
+                    yield return new Segment(pattern[1], CompletedStyle);
                 else
-                    yield return new Segment(pattern[0], EmptyStyle);
+                    yield return new Segment(pattern[0], RemainingStyle);
             }
             yield return new Segment(suffix, Style.Plain);
             yield break;
         }
 
         double progress = ClampCompat(Value / MaxValue, 0, 1);
-        int totalColumns = barWidth;
-        int filledColumns = (int)Math.Floor(progress * totalColumns);
-        double remainder = (progress * totalColumns) - filledColumns;
+        // int totalColumns = barWidth;
+        int filledColumns = (int)Math.Floor(progress * barWidth);
+        var completedBarCount = Math.Min(MaxValue, Math.Max(0, Value));
+        var isCompleted = completedBarCount >= MaxValue;
+        double remainder = (progress * barWidth) - filledColumns;
         int partialIndex = (int)Math.Floor(remainder * (pattern.Count - 1));
-
-        yield return new Segment(prefix, Style.Plain);
+        var style = isCompleted ? CompletedStyle : PartiallyCompletedStyle;
+        
+        yield return new Segment(prefix, style);
 
         int columnsRendered = 0;
+
         // Full cells
         while (columnsRendered < filledColumns)
         {
@@ -87,20 +104,20 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             int w = ch.GetWidth();
             if (columnsRendered + w > filledColumns)
                 break;
-            yield return new Segment(ch, FilledStyle);
+            yield return new Segment(ch, style);
             columnsRendered += w;
         }
 
         // Partial cell (only if not at the end)
-        if (columnsRendered < totalColumns)
+        if (columnsRendered < barWidth)
         {
             if (partialIndex > 0)
             {
                 var ch = pattern[partialIndex];
                 int w = ch.GetWidth();
-                if (columnsRendered + w <= totalColumns)
+                if (columnsRendered + w <= barWidth)
                 {
-                    yield return new Segment(ch, FillingStyle);
+                    yield return new Segment(ch, PartiallyCompletedStyle);
                     columnsRendered += w;
                 }
             }
@@ -108,30 +125,31 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
             {
                 var ch = pattern[0];
                 int w = ch.GetWidth();
-                if (columnsRendered + w <= totalColumns)
+                if (columnsRendered + w <= barWidth)
                 {
-                    yield return new Segment(ch, EmptyStyle);
+                    yield return new Segment(ch, RemainingStyle);
                     columnsRendered += w;
                 }
             }
         }
 
         // Remaining empty cells
-        while (columnsRendered < totalColumns)
+        while (columnsRendered < barWidth)
         {
             var ch = pattern[0];
             int w = ch.GetWidth();
-            if (columnsRendered + w > totalColumns)
+            if (columnsRendered + w > barWidth)
                 break;
-            yield return new Segment(ch, EmptyStyle);
+            yield return new Segment(ch, RemainingStyle);
             columnsRendered += w;
         }
 
-        yield return new Segment(suffix, Style.Plain);
+        yield return new Segment(suffix, style);
     }
+
     private IEnumerable<Segment> RenderIndeterminate(RenderOptions options, int width, string prefix, string suffix)
     {
-    var bar = options.Unicode ? UnicodeBar : AsciiBar;
+        var bar = options.Unicode ? UnicodeBar : AsciiBar;
         var style = IndeterminateStyle ?? DefaultPulseStyle;
 
         IEnumerable<Segment> GetPulseSegments()

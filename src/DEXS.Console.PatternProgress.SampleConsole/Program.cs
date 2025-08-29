@@ -1,18 +1,23 @@
 ﻿using Spectre.Console;
 using DEXS.Console.PatternProgress;
 
-Console.ReadLine();
+// Console.ReadLine();
 
 AnsiConsole.Progress()
 	.AutoClear(false)
 	.Columns(
 		new TaskDescriptionColumn(),    // Task description
+        new ProgressBarColumn
+        {
+            Width = 40,
+            
+		},
 		new PatternProgressBarColumn
 		{
 			Width = 40,
-			FilledStyle = new Style(foreground: Color.Green, background: null),
-			FillingStyle = new Style(foreground: Color.Yellow4),
-			EmptyStyle = new Style(foreground: Color.Grey35),
+			CompletedStyle = new Style(foreground: Color.Green, background: null),
+			PartiallyCompletedStyle = new Style(foreground: Color.Yellow4),
+			RemainingStyle = new Style(foreground: Color.Grey35),
 			ProgressPattern = ProgressPattern.Known.Braille,
 		},
         new PercentageColumn(),
