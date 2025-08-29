@@ -9,12 +9,10 @@
   </PropertyGroup>
 	
   <ItemGroup>
+	  <ProjectReference Include="..\DEXS.Console.PatternProgress\DEXS.Console.PatternProgress.csproj" />
+    <!--<PackageReference Include="DEXS.Console.PatternProgress" Version="0.50.0" />-->
     <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
     <PackageReference Include="Spectre.Console.Json" Version="0.50.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DEXS.Console.PatternProgress\DEXS.Console.PatternProgress.csproj" />
   </ItemGroup>
 
 </Project>
