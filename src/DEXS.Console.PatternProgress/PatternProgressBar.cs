@@ -17,8 +17,12 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     /// <summary>
     /// Style for the filled (completed) part of the progress bar.
     /// </summary>
-    /// <returns></returns>
     public Style CompletedStyle { get; set; } = new(foreground: Color.Green);
+
+    /// <summary>
+    /// Style for the tail (end) part of the completed progress bar.
+    /// </summary>
+    public Style CompletedTailStyle { get; set; } = new(foreground: Color.Default);
 
     /// <summary>
     /// Style for the filling (in-progress) part of the progress bar.
@@ -29,7 +33,7 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
     /// Style for the filling (in-progress) part of the progress bar.
     /// Used for gradient if the foreground/background are not Color.Default
     /// </summary>
-    public Style ProgressEndStyle { get; set; } = new(foreground: Color.Default);
+    public Style ProgressTailStyle { get; set; } = new(foreground: Color.Default);
 
     /// <summary>
     /// Style for the remaining (unfilled) part of the progress bar.
@@ -120,14 +124,14 @@ internal sealed class PatternProgressBar : Renderable, IHasCulture
 
             Style cellStyle = style;
             
-            if (!isCompleted && (ProgressEndStyle.Foreground != Color.Default || ProgressEndStyle.Background != Color.Default))
+            if (!isCompleted && (ProgressTailStyle.Foreground != Color.Default || ProgressTailStyle.Background != Color.Default))
             {
                 // Calculate gradient color for this position
                 double t = (double)i / (filledColumns - 1);
                 
                 // Compute the foreground and background gradient based on the ProgressEndStyle
-                var fgColor = BlendColor(ProgressEndStyle.Foreground, style.Foreground, (float)t);
-                var bgColor = BlendColor(ProgressEndStyle.Background, style.Background, (float)t);
+                var fgColor = BlendColor(ProgressTailStyle.Foreground, style.Foreground, (float)t);
+                var bgColor = BlendColor(ProgressTailStyle.Background, style.Background, (float)t);
 
                 cellStyle = new Style(foreground: fgColor, background: bgColor);
             }

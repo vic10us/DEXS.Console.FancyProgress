@@ -11,10 +11,11 @@ AnsiConsole.Progress()
 		{
 			Width = 40,
 			CompletedStyle = new Style(foreground: Color.Green, background: Color.Default),
-			ProgressStyle = new Style(foreground: new Color(0, 255, 163)),
-			ProgressEndStyle = new Style(foreground: new Color(177, 79, 255)),
+			CompletedTailStyle = new Style(foreground: Color.Green, background: Color.Default),
+			ProgressStyle = new Style(foreground: new Color(0, 255, 163)), //, background: Color.DodgerBlue1),
+			ProgressTailStyle = new Style(foreground: new Color(177, 79, 255)), //, background: new Color(50, 0, 0)),
 			RemainingStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.UnicodeBar
+			// ProgressPattern = ProgressPattern.Known.UnicodeBar
 		},
         new PercentageColumn(),
 		new RemainingTimeColumn(),      // Remaining time

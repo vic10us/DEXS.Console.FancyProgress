@@ -100,6 +100,39 @@ Example JSON entry:
 
 ---
 
+
+## Gradient Support
+
+You can enable a color gradient for the filled portion of the progress bar by setting both `ProgressStyle` and `ProgressEndStyle` on the `PatternProgressBarColumn`. The bar will smoothly blend from the foreground color of `ProgressStyle` (start) to the foreground color of `ProgressEndStyle` (end) as progress increases.
+
+**How to enable a gradient:**
+
+```csharp
+AnsiConsole.Progress()
+    .Columns(
+        new PatternProgressBarColumn
+        {
+            Width = 40,
+            ProgressStyle = new Style(foreground: new Color(0, 255, 163)), // Start color
+            ProgressEndStyle = new Style(foreground: new Color(177, 79, 255)), // End color
+            RemainingStyle = new Style(foreground: Color.Grey35),
+            ProgressPattern = ProgressPattern.Known.UnicodeBar
+        },
+        // ... other columns ...
+    )
+    .Start(ctx => { /* ... */ });
+```
+
+**Properties:**
+
+- `ProgressStyle`: The style (color) at the start of the filled bar (left side).
+- `ProgressEndStyle`: The style (color) at the end of the filled bar (right side, at current progress). Set the foreground to a color to enable the gradient.
+- `RemainingStyle`: The style for the unfilled portion.
+
+If `ProgressEndStyle.Foreground` is set to `Color.Default`, no gradient is applied and the bar uses a solid color from `ProgressStyle`.
+
+---
+
 ## Advanced: Indeterminate Bars & Cursor Mode
 
 - Use `IsIndeterminate` on the task for animated bars.
