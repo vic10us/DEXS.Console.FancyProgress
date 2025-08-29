@@ -7,7 +7,7 @@
     <!-- NuGet package metadata -->
     <PackageId>DEXS.Console.FancyProgress</PackageId>
     <PackageReadmeFile>DEXS.Console.FancyProgress.md</PackageReadmeFile>
-    <Version>0.50.1</Version>
+    <Version>0.50.0</Version>
     <Authors>vic10us</Authors>
     <Company>vic10us</Company>
     <Description>Pattern-based and emoji-aware progress bar columns for Spectre.Console, with Unicode and multi-target support.</Description>
