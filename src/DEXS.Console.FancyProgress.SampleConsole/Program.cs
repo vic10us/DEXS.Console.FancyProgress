@@ -23,8 +23,8 @@ x.AutoClear(false)
 			Width = 40,
 			CompletedStyle = new Style(foreground: Color.SeaGreen1),
 			CompletedTailStyle = new Style(foreground: Color.DarkGreen),
-			ProgressStyle = new Style(foreground: Color.SeaGreen1), //, background: Color.DodgerBlue1),
-			ProgressTailStyle = new Style(foreground: Color.SlateBlue1), // new Color(177, 79, 255)), //, background: new Color(50, 0, 0)),
+			ProgressStyle = new Style(foreground: Color.SeaGreen1),
+			ProgressTailStyle = new Style(foreground: Color.SlateBlue1),
 			RemainingStyle = new Style(foreground: Color.Grey35),
 			ProgressPattern = ProgressPattern.Known.Braille
 		},
