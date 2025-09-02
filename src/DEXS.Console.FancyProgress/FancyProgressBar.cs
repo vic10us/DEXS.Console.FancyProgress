@@ -52,7 +52,7 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
     protected override Measurement Measure(RenderOptions options, int maxWidth)
     {
         var width = Math.Min(Width, maxWidth);
-        return new Measurement(4, width + Prefix.Length + Suffix.Length);
+        return new Measurement(4, width);
     }
     
     protected override IEnumerable<Segment> Render(RenderOptions options, int maxWidth)
@@ -65,7 +65,7 @@ internal sealed class FancyProgressBar : Renderable, IHasCulture
         string suffix = useAsciiFallback && Suffix.ContainsUnicode() ? "" : Suffix;
 
         var pattern = progressPattern.Pattern;
-        int barWidth = Math.Min(Width, maxWidth - prefix.Length - suffix.Length);
+        int barWidth = Math.Min(Width - prefix.Length - suffix.Length, maxWidth - prefix.Length - suffix.Length);
         if (barWidth <= 0)
             yield break;
 

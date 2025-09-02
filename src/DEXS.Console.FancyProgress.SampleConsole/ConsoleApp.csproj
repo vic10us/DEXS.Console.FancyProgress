@@ -10,9 +10,9 @@
 	
   <ItemGroup>
 	  <ProjectReference Include="..\DEXS.Console.FancyProgress\DEXS.Console.FancyProgress.csproj" />
-    <!--<PackageReference Include="DEXS.Console.FancyProgress" Version="0.50.0" />-->
-    <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
-    <PackageReference Include="Spectre.Console.Json" Version="0.50.0" />
+	  <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
+	  <PackageReference Include="Spectre.Console.Json" Version="0.50.0" />
+	  <!--<PackageReference Include="DEXS.Console.FancyProgress" Version="0.50.0" />-->
   </ItemGroup>
 
 </Project>

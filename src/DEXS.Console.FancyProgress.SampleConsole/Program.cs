@@ -26,7 +26,9 @@ x.AutoClear(false)
 			ProgressStyle = new Style(foreground: Color.SeaGreen1),
 			ProgressTailStyle = new Style(foreground: Color.SlateBlue1),
 			RemainingStyle = new Style(foreground: Color.Grey35),
-			ProgressPattern = ProgressPattern.Known.Braille
+			ProgressPattern = ProgressPattern.Known.LowerEighthBlocks,
+			Prefix = "",
+			Suffix = ""
 		},
         new PercentageColumn(),
 		new RemainingTimeColumn(),      // Remaining time
